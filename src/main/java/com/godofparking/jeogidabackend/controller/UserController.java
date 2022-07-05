@@ -12,11 +12,6 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/")
-    public Object test() {
-        return "Hello World";
-    }
-
     // 모든 유저 조회
     @GetMapping("/user")
     public List<UserDto> getUserList() {

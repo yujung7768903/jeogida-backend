@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.godofparking.jeogidabackend.mapper.CarMapper">
+
+    <select id="getCarList" resultType="com.godofparking.jeogidabackend.dto.CarDto">
+        SELECT * From car WHERE user_id = #{user_id}
+    </select>
+
+    <insert id="insertCar" parameterType="com.godofparking.jeogidabackend.dto.CarDto">
+        INSERT
+        INTO car(number, name, user_id)
+        VALUES (#{number}, #{name}, #{user_id})
+    </insert>
+
+    <update id="updateCar" parameterType="com.godofparking.jeogidabackend.dto.CarDto">
+        UPDATE car
+        SET number = #{number}, name = #{name}, user_id = #{user_id}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteCar">
+        DELETE
+        FROM car
+        WHERE id = #{id} AND user_id = #{user_id}
+    </delete>
+
+</mapper>

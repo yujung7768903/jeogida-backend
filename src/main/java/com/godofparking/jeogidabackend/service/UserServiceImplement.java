@@ -46,9 +46,7 @@ public class UserServiceImplement implements UserService{
     // 유저 정보 수정
     @Override
     public boolean updateUser(Integer id, UserDto userDto) {
-        System.out.println("전: " + userDto);
         userDto.setId(id);
-        System.out.println("후: " + userDto);
         try {
             userMapper.updateUser(userDto);
             return true;
