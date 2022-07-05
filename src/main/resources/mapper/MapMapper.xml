@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.godofparking.jeogidabackend.mapper.MapMapper">
+
+    <select id="getMapList" resultType="com.godofparking.jeogidabackend.dto.MapDto">
+        SELECT *
+        FROM map
+    </select>
+
+    <select id="getMap" resultType="com.godofparking.jeogidabackend.dto.MapDto">
+        SELECT *
+        FROM map
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insertMap" parameterType="com.godofparking.jeogidabackend.dto.MapDto">
+        INSERT
+        INTO map(name, path)
+        VALUES (#{name}, #{path})
+    </insert>
+
+    <update id="updateMap" parameterType="com.godofparking.jeogidabackend.dto.MapDto">
+        UPDATE map
+        SET name = #{name},
+            path = #{path}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteMap" parameterType="_integer">
+        DELETE
+        FROM map
+        WHERE id = #{id}
+    </delete>
+
+</mapper>
+
+
