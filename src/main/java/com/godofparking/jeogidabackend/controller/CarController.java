@@ -12,10 +12,16 @@ import java.util.List;
 public class CarController {
     private final CarService carService;
 
+    // 모든 차량 조회
+    @GetMapping("/car")
+    public List<CarDto> getCarList() {
+        return carService.getCarList();
+    }
+
     // 유저가 가지고 있는 모든 차량 조회
     @GetMapping("/car/{user_id}")
-    public List<CarDto> getCarList(@PathVariable Integer user_id) {
-        return carService.getCarList(user_id);
+    public List<CarDto> getCarById(@PathVariable Integer user_id) {
+        return carService.getCarById(user_id);
     }
 
     // 차량 등록

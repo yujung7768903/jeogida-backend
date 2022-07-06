@@ -13,8 +13,13 @@ public class FavoriteLocationImplement implements FavoriteLocationService{
     private final FavoriteLocationMapper favoriteLocationMapper;
 
     @Override
-    public List<FavoriteLocationDto> getFavoriteLocationList(Integer user_id) {
-        return favoriteLocationMapper.getFavoriteLocationList(user_id);
+    public List<FavoriteLocationDto> getFavoriteLocationList() {
+        return favoriteLocationMapper.getFavoriteLocationList();
+    }
+
+    @Override
+    public List<FavoriteLocationDto> getFavoriteLocationById(Integer user_id) {
+        return favoriteLocationMapper.getFavoriteLocationById(user_id);
     }
 
     @Override

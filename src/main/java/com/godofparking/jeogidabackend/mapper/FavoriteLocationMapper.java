@@ -7,7 +7,8 @@ import java.util.List;
 
 @Mapper
 public interface FavoriteLocationMapper {
-    public List<FavoriteLocationDto> getFavoriteLocationList(Integer user_id);
+    public List<FavoriteLocationDto> getFavoriteLocationList();
+    public List<FavoriteLocationDto> getFavoriteLocationById(Integer user_id);
     public int insertFavoriteLocation(FavoriteLocationDto favoriteLocationDto);
     public int deleteFavoriteLocation(Integer user_id, Integer location_id);
 }

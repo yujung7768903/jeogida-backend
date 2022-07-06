@@ -5,6 +5,10 @@
 <mapper namespace="com.godofparking.jeogidabackend.mapper.CarMapper">
 
     <select id="getCarList" resultType="com.godofparking.jeogidabackend.dto.CarDto">
+        SELECT * From car
+    </select>
+
+    <select id="getCarById" resultType="com.godofparking.jeogidabackend.dto.CarDto">
         SELECT * From car WHERE user_id = #{user_id}
     </select>
 

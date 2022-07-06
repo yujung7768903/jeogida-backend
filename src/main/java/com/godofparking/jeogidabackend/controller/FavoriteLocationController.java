@@ -12,10 +12,16 @@ import java.util.List;
 public class FavoriteLocationController {
     private final FavoriteLocationService favoriteLocationService;
 
+    // 모든 장소 조회
+    @GetMapping("/favorite-location")
+    public List<FavoriteLocationDto> getFavoriteLocationList() {
+        return favoriteLocationService.getFavoriteLocationList();
+    }
+
     // 유저가 즐겨찾는 모든 장소 조회
     @GetMapping("/favorite-location/{user_id}")
-    public List<FavoriteLocationDto> getFavoriteLocationList(@PathVariable Integer user_id) {
-        return favoriteLocationService.getFavoriteLocationList(user_id);
+    public List<FavoriteLocationDto> getFavoriteLocationById(@PathVariable Integer user_id) {
+        return favoriteLocationService.getFavoriteLocationById(user_id);
     }
 
     // 즐겨찾는 장소 추가

@@ -5,6 +5,10 @@
 <mapper namespace="com.godofparking.jeogidabackend.mapper.FavoriteLocationMapper">
 
     <select id="getFavoriteLocationList" resultType="com.godofparking.jeogidabackend.dto.FavoriteLocationDto">
+        SELECT * From favorite_location
+    </select>
+
+    <select id="getFavoriteLocationById" resultType="com.godofparking.jeogidabackend.dto.FavoriteLocationDto">
         SELECT * From favorite_location WHERE user_id = #{user_id}
     </select>
 
@@ -14,11 +18,11 @@
         VALUES (#{user_id}, #{location_id})
     </insert>
 
-    <update id="updateFavoriteLocation" parameterType="com.godofparking.jeogidabackend.dto.FavoriteLocationDto">
-        UPDATE favorite_location
-        SET number = #{number}, name = #{name}, user_id = #{user_id}
-        WHERE id = #{id}
-    </update>
+<!--    <update id="updateFavoriteLocation" parameterType="com.godofparking.jeogidabackend.dto.FavoriteLocationDto">-->
+<!--        UPDATE favorite_location-->
+<!--        SET number = #{number}, name = #{name}, user_id = #{user_id}-->
+<!--        WHERE id = #{id}-->
+<!--    </update>-->
 
     <delete id="deleteFavoriteLocation">
         DELETE

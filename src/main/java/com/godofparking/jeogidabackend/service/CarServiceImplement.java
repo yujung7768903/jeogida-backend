@@ -13,8 +13,13 @@ public class CarServiceImplement implements CarService{
     private final CarMapper carMapper;
 
     @Override
-    public List<CarDto> getCarList(Integer user_id) {
-        return carMapper.getCarList(user_id);
+    public List<CarDto> getCarList() {
+        return carMapper.getCarList();
+    }
+
+    @Override
+    public List<CarDto> getCarById(Integer user_id) {
+        return carMapper.getCarById(user_id);
     }
 
     @Override
