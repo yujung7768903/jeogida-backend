@@ -3,6 +3,7 @@ package com.godofparking.jeogidabackend.controller;
 import com.godofparking.jeogidabackend.dto.UserDto;
 import com.godofparking.jeogidabackend.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,6 +12,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+
+    @GetMapping("/")
+    public String hello() {
+        return "Hello";
+    }
 
     // 모든 유저 조회
     @GetMapping("/user")
@@ -40,6 +46,11 @@ public class UserController {
     @DeleteMapping("/user/{id}")
     public boolean deleteUser(@PathVariable Integer id) {
         return userService.deleteUser(id);
+    }
+
+    @GetMapping("/user/login")
+    public String login(Model model) {
+        return "login";
     }
 }
 

@@ -12,6 +12,10 @@
         SELECT * FROM user WHERE id = #{id}
     </select>
 
+    <select id="findByEmail" resultType="com.godofparking.jeogidabackend.dto.UserDto">
+        SELECT * FROM user WHERE email = #{email}
+    </select>
+
     <insert id="insertUser" parameterType="com.godofparking.jeogidabackend.dto.UserDto">
         INSERT
         INTO user(email, nickname, password)
