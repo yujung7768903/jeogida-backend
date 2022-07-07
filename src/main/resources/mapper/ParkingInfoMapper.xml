@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.godofparking.jeogidabackend.mapper.ParkingInfoMapper">
+
+    <select id="getParkingInfoList" resultType="com.godofparking.jeogidabackend.dto.ParkingInfoDto">
+        SELECT * FROM parking_info
+    </select>
+
+    <select id="getParkingInfo" resultType="com.godofparking.jeogidabackend.dto.ParkingInfoDto">
+        SELECT * FROM parking_info WHERE id = #{id}
+    </select>
+
+    <insert id="insertParkingInfo" parameterType="com.godofparking.jeogidabackend.dto.ParkingInfoDto">
+        INSERT
+        INTO parking_info(number, is_parked, parking_lot_id)
+        VALUES (#{number}, #{is_parked}, #{parking_lot_id})
+    </insert>
+
+    <update id="updateParkingInfo" parameterType="com.godofparking.jeogidabackend.dto.ParkingInfoDto">
+        UPDATE parking_info
+        SET number = #{number}, is_parked = #{is_parked}, parking_lot_id = #{parking_lot_id}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteParkingInfo" parameterType="_integer">
+        DELETE
+        FROM parking_info
+        WHERE id = #{id}
+    </delete>
+
+</mapper>
