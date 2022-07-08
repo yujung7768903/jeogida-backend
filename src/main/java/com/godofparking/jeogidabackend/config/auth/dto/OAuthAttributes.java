@@ -29,6 +29,10 @@ public class OAuthAttributes {
     }
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
+        System.out.println("ofGoogle 메소드 실행");
+        System.out.println("email: " + attributes.get("email"));
+        System.out.println("role: " + Role.USER);
+        System.out.println("==================================");
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
@@ -42,7 +46,7 @@ public class OAuthAttributes {
         return UserDto.builder()
                 .email(email)
                 .nickname(name)
-                .role(Role.GUEST)
+                .role(Role.USER)
                 .build();
     }
 }
