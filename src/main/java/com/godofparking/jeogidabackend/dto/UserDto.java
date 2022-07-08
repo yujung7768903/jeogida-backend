@@ -8,11 +8,11 @@ public class UserDto {
     private Integer id;
     private String email;
     private String nickname;
-    private String password;
     private Role role;
 
     @Builder
-    public UserDto(String email, String nickname, String password, Role role) {
+    public UserDto(Integer id, String email, String nickname, Role role) {
+        this.id = id;
         this.email = email;
         this.nickname = nickname;
         this.role = role;
