@@ -30,6 +30,12 @@ public class UserController {
         return userService.getUser(id);
     }
 
+    // 이메일로 특정 유저 아이디 조회
+    @GetMapping("/user/id/{email}")
+    public Integer getIdByEmail(@PathVariable String email) {
+        return userService.findByEmail(email).getId();
+    }
+
     // 유저 등록
     @PostMapping("/user")
     public boolean save(@RequestBody UserDto userDto) {

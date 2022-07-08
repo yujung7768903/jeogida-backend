@@ -26,9 +26,9 @@ public class UserServiceImplement implements UserService{
 
     // 이메일로 유저 찾기
     @Override
-    public Integer findByEmail(String email) {
+    public UserDto findByEmail(String email) {
         UserDto userDto = userMapper.findByEmail(email);
-        return userDto.getId();
+        return userDto;
     }
 
     // 유저 등록
