@@ -1,6 +1,7 @@
 package com.godofparking.jeogidabackend.service;
 
 
+import com.godofparking.jeogidabackend.dto.Role;
 import com.godofparking.jeogidabackend.dto.UserDto;
 import com.godofparking.jeogidabackend.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,9 @@ public class UserServiceImplement implements UserService{
     // 유저 등록
     @Override
     public boolean insertUser(UserDto userDto) {
+        if (userDto.getRole() == null) {
+            userDto.setRole(Role.GUEST);
+        }
         try {
             userMapper.insertUser(userDto);
             return true;
