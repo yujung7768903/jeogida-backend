@@ -12,15 +12,19 @@
         SELECT * FROM user WHERE id = #{id}
     </select>
 
+    <select id="findByEmail" resultType="com.godofparking.jeogidabackend.dto.UserDto">
+        SELECT * FROM user WHERE email = #{email}
+    </select>
+
     <insert id="insertUser" parameterType="com.godofparking.jeogidabackend.dto.UserDto">
         INSERT
-        INTO user(email, nickname, password)
-        VALUES (#{email}, #{nickname}, #{password})
+        INTO user(email, nickname, role)
+        VALUES (#{email}, #{nickname}, #{role})
     </insert>
 
     <update id="updateUser" parameterType="com.godofparking.jeogidabackend.dto.UserDto">
         UPDATE user
-        SET email = #{email}, nickname = #{nickname}, password = #{password}
+        SET email = #{email}, nickname = #{nickname}
         WHERE id = #{id}
     </update>
 
