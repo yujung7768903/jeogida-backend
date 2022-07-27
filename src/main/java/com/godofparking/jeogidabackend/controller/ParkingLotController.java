@@ -2,42 +2,49 @@ package com.godofparking.jeogidabackend.controller;
 
 import com.godofparking.jeogidabackend.dto.ParkingLotDto;
 import com.godofparking.jeogidabackend.service.ParkingLotService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api(tags = "장소의 주차장 정보")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/parkinglot")
 public class ParkingLotController {
     private final ParkingLotService parkingLotService;
 
-    // 모든 주차장 조회
+    @ApiOperation(value = "모든 주차장 정보 조회")
     @GetMapping("")
     public List<ParkingLotDto> getParkingLotList() {
         return parkingLotService.getParkingLotList();
     }
 
-    // 아이디로 특정 주차장 정보 조회
+    @ApiOperation(value = "아이디로 특정 주차장 정보 조회")
+    @ApiImplicitParam(name = "id", value = "주차장 아이디(공간 아이디 아님. 주차장의 고유 식별 번호)", required = true)
     @GetMapping("/{id}")
     public ParkingLotDto getParkingLot(@PathVariable Integer id) {
         return parkingLotService.getParkingLot(id);
     }
 
-    // 주차장 등록
+    @ApiOperation(value = "주차장 등록")
     @PostMapping("")
     public boolean save(@RequestBody ParkingLotDto parkingLotDto) {
         return parkingLotService.insertParkingLot(parkingLotDto);
     }
 
-    // 주차장 정보 수정
+    @ApiOperation(value = "주차장 정보 수정")
+    @ApiImplicitParam(name = "id", value = "주차장 아이디(공간 아이디 아님. 주차장의 고유 식별 번호)", required = true)
     @PatchMapping("/{id}")
     public boolean updateParkingLot(@PathVariable Integer id, @RequestBody ParkingLotDto parkingLotDto) {
         return parkingLotService.updateParkingLot(id, parkingLotDto);
     }
 
-    // 주차장 삭제
+    @ApiOperation(value = "주차장 삭제")
+    @ApiImplicitParam(name = "id", value = "주차장 아이디(공간 아이디 아님. 주차장의 고유 식별 번호)", required = true)
     @DeleteMapping("{id}")
     public boolean deleteParkingLot(@PathVariable Integer id) {
         return parkingLotService.deleteParkingLot(id);
