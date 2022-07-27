@@ -1,21 +1,32 @@
 package com.godofparking.jeogidabackend.controller;
 
+import com.godofparking.jeogidabackend.config.auth.dto.SessionUser;
 import com.godofparking.jeogidabackend.dto.UserDto;
 import com.godofparking.jeogidabackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final HttpSession httpSession;
 
     @GetMapping("/")
     public String hello() {
-        return "Hello";
+        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+        if (sessionUser != null) {
+            String userName = sessionUser.getName();
+            return userName + "님 환영합니다.";
+        } else {
+            return "저기다에 오신 걸 환영합니다:)";
+        }
     }
 
     // 모든 유저 조회
@@ -55,8 +66,24 @@ public class UserController {
     }
 
     @GetMapping("/user/login")
-    public String login(Model model) {
-        return "login";
+    public void login(HttpServletResponse httpServletResponse) throws IOException {
+        httpServletResponse.sendRedirect("/oauth2/authorization/google");
+    }
+
+    @GetMapping("/user/logout")
+    public void logout(HttpServletResponse httpServletResponse) throws IOException {
+        httpSession.invalidate();
+        httpServletResponse.sendRedirect("/");
+    }
+
+    @GetMapping("/user/status")
+    public Boolean getUserStatus() {
+        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+        if (sessionUser != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
