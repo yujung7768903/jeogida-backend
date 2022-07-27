@@ -35,6 +35,16 @@ public class UserController {
         return userService.getUserList();
     }
 
+    @GetMapping("/user/mypage")
+    public Object getUserInfo() {
+        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+        if (sessionUser != null) {
+            return sessionUser;
+        } else {
+            return "로그인을 먼저 해주세요.";
+        }
+    }
+
     // 아이디로 특정 유저 정보 조회
     @GetMapping("/user/{id}")
     public UserDto getUser(@PathVariable Integer id) {
