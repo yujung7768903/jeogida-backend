@@ -41,6 +41,7 @@ public class UserController {
         return userService.getUserList();
     }
 
+    @ApiOperation(value = "마이페이지", notes = "로그인되어 있는 경우, 유저 정보 반환. 로그인되어 있지 않은 경우, 로그인이 필요하다는 안내 메세지 반환")
     @GetMapping("/user/mypage")
     public Object getUserInfo() {
         SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
@@ -78,24 +79,27 @@ public class UserController {
         return userService.updateUser(id, userDto);
     }
 
-    @ApiOperation(value = "유저 삭제")
+    @ApiOperation(value = "탈퇴하기")
     @ApiImplicitParam(name = "id", value = "유저 아이디(고유 식별 번호)", required = true)
     @DeleteMapping("/user/{id}")
     public boolean deleteUser(@PathVariable Integer id) {
         return userService.deleteUser(id);
     }
 
+    @ApiOperation(value = "로그인", notes = "구글 로그인 페이지로 이동")
     @GetMapping("/user/login")
     public void login(HttpServletResponse httpServletResponse) throws IOException {
         httpServletResponse.sendRedirect("/oauth2/authorization/google");
     }
 
+    @ApiOperation(value = "로그아웃", notes = "세션 종료 후 홈 api로 이동")
     @GetMapping("/user/logout")
     public void logout(HttpServletResponse httpServletResponse) throws IOException {
         httpSession.invalidate();
         httpServletResponse.sendRedirect("/");
     }
 
+    @ApiOperation(value = "로그인 유무", notes = "로그인 한 경우, true 반환 | 로그인 하지 않은 경우, false 반환")
     @GetMapping("/user/status")
     public Boolean getUserStatus() {
         SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
