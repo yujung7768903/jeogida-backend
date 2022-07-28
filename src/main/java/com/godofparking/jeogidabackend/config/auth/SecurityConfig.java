@@ -21,7 +21,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/swagger-ui/index.html", "/user", "/user/**", "/css/**", "/images/**", "/js/**").permitAll()
                 .antMatchers("/favorite-location").hasRole(Role.USER.name())
-                .anyRequest().authenticated()
                 .and()
                 .logout()
                 .logoutSuccessUrl("/")
