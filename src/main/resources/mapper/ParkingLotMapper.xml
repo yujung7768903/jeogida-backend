@@ -12,6 +12,10 @@
         SELECT * FROM parking_lot WHERE id = #{id}
     </select>
 
+    <select id="getInfoListByParkingLotId" resultType="com.godofparking.jeogidabackend.dto.ParkingInfoDto">
+        SELECT * FROM parking_info WHERE parking_lot_id = #{parking_lot_id}
+    </select>
+
     <insert id="insertParkingLot" parameterType="com.godofparking.jeogidabackend.dto.ParkingLotDto">
         INSERT
         INTO parking_lot(number, location_id, map_id)
