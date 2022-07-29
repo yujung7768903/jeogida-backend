@@ -1,6 +1,7 @@
 package com.godofparking.jeogidabackend.controller;
 
 import com.godofparking.jeogidabackend.dto.LocationDto;
+import com.godofparking.jeogidabackend.dto.ParkingLotDto;
 import com.godofparking.jeogidabackend.service.LocationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -20,6 +21,12 @@ public class LocationController {
     @GetMapping("/location")
     public List<LocationDto> getLocationList() {
         return locationService.getLocationList();
+    }
+
+    @ApiOperation(value = "장소에 있는 모든 주차장 조회")
+    @GetMapping("/location/parkinglot/{location_id}")
+    public List<ParkingLotDto> getParkingLotListByLocationId(@PathVariable Integer location_id) {
+        return locationService.getParkingLotListByLocationId(location_id);
     }
 
     @ApiOperation(value = "장소 추가")
