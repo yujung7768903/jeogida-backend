@@ -1,6 +1,7 @@
 package com.godofparking.jeogidabackend.service;
 
 import com.godofparking.jeogidabackend.dto.LocationDto;
+import com.godofparking.jeogidabackend.dto.ParkingLotDto;
 import com.godofparking.jeogidabackend.mapper.LocationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,11 @@ public class LocationServiceImplement implements LocationService{
     @Override
     public List<LocationDto> getLocationList() {
         return locationMapper.getLocationList();
+    }
+
+    @Override
+    public List<ParkingLotDto> getParkingLotListByLocationId(Integer location_id) {
+        return locationMapper.getParkingLotListByLocationId(location_id);
     }
 
     @Override

@@ -5,7 +5,11 @@
 <mapper namespace="com.godofparking.jeogidabackend.mapper.LocationMapper">
 
     <select id="getLocationList" resultType="com.godofparking.jeogidabackend.dto.LocationDto">
-        SELECT * From location
+        SELECT * FROM location
+    </select>
+
+    <select id="getParkingLotListByLocationId" resultType="com.godofparking.jeogidabackend.dto.ParkingLotDto">
+        SELECT * FROM parking_lot WHERE location_id = #{location_id}
     </select>
 
     <insert id="insertLocation" parameterType="com.godofparking.jeogidabackend.dto.LocationDto">
