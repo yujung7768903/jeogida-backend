@@ -28,7 +28,7 @@ public class UserController {
     public String hello() {
         SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
         if (sessionUser != null) {
-            String userName = sessionUser.getName();
+            String userName = sessionUser.getNickname();
             return userName + "님 환영합니다.";
         } else {
             return "저기다에 오신 걸 환영합니다:)";
