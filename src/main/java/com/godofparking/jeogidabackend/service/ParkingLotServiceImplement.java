@@ -1,5 +1,6 @@
 package com.godofparking.jeogidabackend.service;
 
+import com.godofparking.jeogidabackend.dto.ParkingInfoDto;
 import com.godofparking.jeogidabackend.dto.ParkingLotDto;
 import com.godofparking.jeogidabackend.mapper.ParkingLotMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,11 @@ public class ParkingLotServiceImplement implements ParkingLotService{
     @Override
     public ParkingLotDto getParkingLot(Integer id) {
         return parkingLotMapper.getParkingLot(id);
+    }
+
+    @Override
+    public List<ParkingInfoDto> getInfoListByParkingLotId(Integer parking_lot_id) {
+        return parkingLotMapper.getInfoListByParkingLotId(parking_lot_id);
     }
 
     // 주차장 추가

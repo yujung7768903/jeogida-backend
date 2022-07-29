@@ -1,5 +1,6 @@
 package com.godofparking.jeogidabackend.controller;
 
+import com.godofparking.jeogidabackend.dto.ParkingInfoDto;
 import com.godofparking.jeogidabackend.dto.ParkingLotDto;
 import com.godofparking.jeogidabackend.service.ParkingLotService;
 import io.swagger.annotations.Api;
@@ -23,11 +24,17 @@ public class ParkingLotController {
         return parkingLotService.getParkingLotList();
     }
 
-    @ApiOperation(value = "아이디로 특정 주차장 정보 조회")
+    @ApiOperation(value = "주차장 아이디로 특정 주차장 정보 조회")
     @ApiImplicitParam(name = "id", value = "주차장 아이디(공간 아이디 아님. 주차장의 고유 식별 번호)", required = true)
     @GetMapping("/{id}")
     public ParkingLotDto getParkingLot(@PathVariable Integer id) {
         return parkingLotService.getParkingLot(id);
+    }
+
+    @ApiOperation(value = "주차장 아이디로 주차장에 있는 모든 주차공간의 차량 유무에 대한 정보 조회")
+    @GetMapping("/parkinginfo/{parking_lot_id}")
+    public List<ParkingInfoDto> getInfoListByParkingLotId(@PathVariable Integer parking_lot_id) {
+        return parkingLotService.getInfoListByParkingLotId(parking_lot_id);
     }
 
     @ApiOperation(value = "주차장 등록")
