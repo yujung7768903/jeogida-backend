@@ -24,7 +24,7 @@
 
     <update id="updateUser" parameterType="com.godofparking.jeogidabackend.dto.UserDto">
         UPDATE user
-        SET email = #{email}, nickname = #{nickname}
+        SET email = #{email}, nickname = #{nickname}, role = #{role}
         WHERE id = #{id}
     </update>
 

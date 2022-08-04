@@ -29,4 +29,12 @@ public class UserDto {
     public String getRoleKey() {
         return this.role.getKey();
     }
+
+    public UserDto update(String email, String nickname, Role role) {
+        this.email = email;
+        this.nickname = nickname;
+        this.role = role;
+
+        return this;
+    }
 }
