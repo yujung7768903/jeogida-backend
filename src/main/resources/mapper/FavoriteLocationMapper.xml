@@ -8,8 +8,10 @@
         SELECT * From favorite_location
     </select>
 
-    <select id="getFavoriteLocationById" resultType="com.godofparking.jeogidabackend.dto.FavoriteLocationDto">
-        SELECT * From favorite_location WHERE user_id = #{user_id}
+    <select id="getFavoriteLocationById" resultType="com.godofparking.jeogidabackend.dto.LocationDto">
+        SELECT l.*
+        From favorite_location f, location l
+        WHERE f.user_id = #{user_id} AND f.location_id = l.id;
     </select>
 
     <insert id="insertFavoriteLocation" parameterType="com.godofparking.jeogidabackend.dto.FavoriteLocationDto">
@@ -18,11 +20,6 @@
         VALUES (#{user_id}, #{location_id})
     </insert>
 
-<!--    <update id="updateFavoriteLocation" parameterType="com.godofparking.jeogidabackend.dto.FavoriteLocationDto">-->
-<!--        UPDATE favorite_location-->
-<!--        SET number = #{number}, name = #{name}, user_id = #{user_id}-->
-<!--        WHERE id = #{id}-->
-<!--    </update>-->
 
     <delete id="deleteFavoriteLocation">
         DELETE
