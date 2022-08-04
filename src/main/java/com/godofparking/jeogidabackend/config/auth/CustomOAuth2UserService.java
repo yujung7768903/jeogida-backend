@@ -2,6 +2,7 @@ package com.godofparking.jeogidabackend.config.auth;
 
 import com.godofparking.jeogidabackend.config.auth.dto.OAuthAttributes;
 import com.godofparking.jeogidabackend.config.auth.dto.SessionUser;
+import com.godofparking.jeogidabackend.dto.Role;
 import com.godofparking.jeogidabackend.dto.UserDto;
 import com.godofparking.jeogidabackend.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -42,22 +43,22 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
 
 
-        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(userDto.getRole().toString())), attributes.getAttributes(), attributes.getNameAttributeKey());
+        return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(userDto.getRoleKey())), attributes.getAttributes(), attributes.getNameAttributeKey());
     }
 
     private UserDto saveOrUpdate(OAuthAttributes attributes) {
         UserDto userDto;
+        userDto = userMapper.findByEmail(attributes.getEmail());
 
-        if(userMapper.findByEmail(attributes.getEmail())!=null){
-            userDto = userMapper.findByEmail(attributes.getEmail());
+        if(userDto!=null){
+            userDto.update(attributes.getEmail(), attributes.getName(), Role.USER);
+            userMapper.updateUser(userDto);
         }
         else {
             userDto = attributes.toUserDto();
-            System.out.println("user role: " + userDto.getRole());
             userMapper.insertUser(userDto);
-            userDto = userMapper.findByEmail(attributes.getEmail());
         }
 
-        return userDto;
+        return userMapper.findByEmail(attributes.getEmail());
     }
 }
