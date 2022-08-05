@@ -1,12 +1,15 @@
 package com.godofparking.jeogidabackend.service;
 
 import com.godofparking.jeogidabackend.dto.FavoriteLocationDto;
+import com.godofparking.jeogidabackend.dto.LocationDto;
 import com.godofparking.jeogidabackend.mapper.FavoriteLocationMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class FavoriteLocationImplement implements FavoriteLocationService{
@@ -18,12 +21,18 @@ public class FavoriteLocationImplement implements FavoriteLocationService{
     }
 
     @Override
-    public List<FavoriteLocationDto> getFavoriteLocationById(Integer user_id) {
+    public List<LocationDto> getFavoriteLocationById(Integer user_id) {
+        log.info("Service: User Id: {}", user_id);
         return favoriteLocationMapper.getFavoriteLocationById(user_id);
     }
 
     @Override
-    public boolean insertFavoriteLocation(FavoriteLocationDto favoriteLocationDto) {
+    public boolean insertFavoriteLocation(Integer user_id, Integer location_id) {
+        FavoriteLocationDto favoriteLocationDto = FavoriteLocationDto.builder()
+                .user_id(user_id)
+                .location_id(location_id)
+                .build();
+
         try {
             favoriteLocationMapper.insertFavoriteLocation(favoriteLocationDto);
             return true;
