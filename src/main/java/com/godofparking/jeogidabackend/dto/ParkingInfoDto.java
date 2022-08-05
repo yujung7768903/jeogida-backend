@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -17,6 +18,7 @@ public class ParkingInfoDto {
     @ApiModelProperty(example = "true")
     private Boolean is_parked;
 
+    @ApiModelProperty(example = "2020-01-01")
     private LocalDateTime changed_at;
 
     @ApiModelProperty(example = "2")
