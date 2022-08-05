@@ -55,7 +55,7 @@ public class ParkingInfoImplement implements ParkingInfoService {
         ParkingInfoDto before = new ParkingInfoDto();
         before = parkingInfoMapper.getParkingInfo(id);
         // 만약 이전과 주차상태가 변경되었다면
-        if(before.getIs_parked() != parkingInfoDto.getIs_parked()){
+        if (before.getIs_parked() != parkingInfoDto.getIs_parked()) {
             parkingInfoDto.setChanged_at(LocalDateTime.now());
         }
 
@@ -82,7 +82,7 @@ public class ParkingInfoImplement implements ParkingInfoService {
 
     // 주차시간 조회
     @Override
-    public TimeGap getParkingTime(Integer id){
+    public TimeGap getParkingTime(Integer id) {
         TimeGap timeGap = new TimeGap();
         ParkingInfoDto before = new ParkingInfoDto();
         before = parkingInfoMapper.getParkingInfo(id);
@@ -90,14 +90,13 @@ public class ParkingInfoImplement implements ParkingInfoService {
         LocalDateTime endTime = LocalDateTime.now();
 
         // 주차하지 않은 경우
-        if(!before.getIs_parked()){
+        if (!before.getIs_parked()) {
             return timeGap;
         }
         // 주차한 경우
-        else{
-            timeGap.setHour((int)ChronoUnit.HOURS.between(startTime, endTime));
-            timeGap.setMinute((int)ChronoUnit.MINUTES.between(startTime, endTime));
-            timeGap.setSecond((int)ChronoUnit.SECONDS.between(startTime, endTime));
+        else {
+            timeGap.setHour((int) ChronoUnit.MINUTES.between(startTime, endTime) / 60);
+            timeGap.setMinute((int) ChronoUnit.MINUTES.between(startTime, endTime) % 60);
 
             return timeGap;
         }

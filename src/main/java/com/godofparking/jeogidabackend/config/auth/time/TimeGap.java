@@ -6,11 +6,9 @@ import lombok.Data;
 public class TimeGap {
     private Integer hour;
     private Integer minute;
-    private Integer second;
 
     public TimeGap() {
         hour = 0;
         minute = 0;
-        second = 0;
     }
 }
