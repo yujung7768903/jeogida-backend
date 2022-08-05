@@ -1,13 +1,16 @@
 package com.godofparking.jeogidabackend.service;
 
+import com.godofparking.jeogidabackend.config.auth.time.TimeGap;
 import com.godofparking.jeogidabackend.dto.ParkingInfoDto;
 import com.godofparking.jeogidabackend.dto.ParkingLotDto;
 import com.godofparking.jeogidabackend.mapper.ParkingInfoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -74,6 +77,29 @@ public class ParkingInfoImplement implements ParkingInfoService {
         } catch (Exception e) {
             System.out.println("error: " + e);
             return false;
+        }
+    }
+
+    // 주차시간 조회
+    @Override
+    public TimeGap getParkingTime(Integer id){
+        TimeGap timeGap = new TimeGap();
+        ParkingInfoDto before = new ParkingInfoDto();
+        before = parkingInfoMapper.getParkingInfo(id);
+        LocalDateTime startTime = before.getChanged_at();
+        LocalDateTime endTime = LocalDateTime.now();
+
+        // 주차하지 않은 경우
+        if(!before.getIs_parked()){
+            return timeGap;
+        }
+        // 주차한 경우
+        else{
+            timeGap.setHour((int)ChronoUnit.HOURS.between(startTime, endTime));
+            timeGap.setMinute((int)ChronoUnit.MINUTES.between(startTime, endTime));
+            timeGap.setSecond((int)ChronoUnit.SECONDS.between(startTime, endTime));
+
+            return timeGap;
         }
     }
 

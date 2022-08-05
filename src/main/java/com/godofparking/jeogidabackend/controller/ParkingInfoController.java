@@ -1,5 +1,6 @@
 package com.godofparking.jeogidabackend.controller;
 
+import com.godofparking.jeogidabackend.config.auth.time.TimeGap;
 import com.godofparking.jeogidabackend.dto.ParkingInfoDto;
 import com.godofparking.jeogidabackend.dto.ParkingLotDto;
 import com.godofparking.jeogidabackend.service.ParkingInfoService;
@@ -46,5 +47,11 @@ public class ParkingInfoController {
     @DeleteMapping("{id}")
     public boolean deleteParkingInfo(@PathVariable Integer id) {
         return parkingInfoService.deleteParkingInfo(id);
+    }
+
+    @ApiOperation(value = "주차 시간 조회")
+    @GetMapping("/time/{id}")
+    public TimeGap getParkingTime(@PathVariable Integer id){
+        return parkingInfoService.getParkingTime(id);
     }
 }
