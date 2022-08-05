@@ -3,6 +3,9 @@ package com.godofparking.jeogidabackend.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+
 @Data
 public class ParkingInfoDto {
     @ApiModelProperty(example = "1")
@@ -14,6 +17,11 @@ public class ParkingInfoDto {
     @ApiModelProperty(example = "true")
     private Boolean is_parked;
 
+    private LocalDateTime changed_at;
+
     @ApiModelProperty(example = "2")
     private Integer parking_lot_id;
+
+    @ApiModelProperty(example = "2")
+    private Integer car_id;
 }
