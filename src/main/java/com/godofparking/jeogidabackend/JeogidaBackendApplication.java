@@ -8,6 +8,8 @@ public class JeogidaBackendApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(JeogidaBackendApplication.class, args);
+		System.out.println("hellosss");
 	}
+
 
 }
