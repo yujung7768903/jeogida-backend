@@ -1,5 +1,6 @@
 package com.godofparking.jeogidabackend.controller;
 
+import com.godofparking.jeogidabackend.config.auth.LoginUser;
 import com.godofparking.jeogidabackend.config.auth.dto.SessionUser;
 import com.godofparking.jeogidabackend.dto.LocationDto;
 import com.godofparking.jeogidabackend.service.FavoriteLocationService;
@@ -23,27 +24,24 @@ public class FavoriteLocationController {
 
     @ApiOperation(value = "유저가 즐겨찾는 모든 장소 조회")
     @GetMapping("/favorite-location")
-    public List<LocationDto> getFavoriteLocationById() {
-        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+    public List<LocationDto> getFavoriteLocationById(@LoginUser SessionUser user) {
 
-        return favoriteLocationService.getFavoriteLocationById(sessionUser.getId());
+        return favoriteLocationService.getFavoriteLocationById(user.getId());
     }
 
     @ApiOperation(value = "즐겨찾는 장소 추가")
     @PostMapping("/favorite-location/{location_id}")
     @ApiImplicitParam(name = "location_id", value = "장소 아이디(고유 식별 번호)", required = true)
-    public boolean insertFavoriteLocation(@PathVariable Integer location_id) {
-        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+    public boolean insertFavoriteLocation(@PathVariable Integer location_id, @LoginUser SessionUser user) {
 
-        return favoriteLocationService.insertFavoriteLocation(sessionUser.getId(), location_id);
+        return favoriteLocationService.insertFavoriteLocation(user.getId(), location_id);
     }
 
     @ApiOperation(value = "즐겨찾는 장소 삭제")
     @ApiImplicitParam(name = "location_id", value = "장소 아이디(고유 식별 번호)", required = true)
     @DeleteMapping("/favorite-location/{location_id}")
-    public boolean deleteFavoriteLocation(@PathVariable Integer location_id) {
-        SessionUser sessionUser = (SessionUser) httpSession.getAttribute("user");
+    public boolean deleteFavoriteLocation(@PathVariable Integer location_id, @LoginUser SessionUser user) {
 
-        return favoriteLocationService.deleteFavoriteLocation(sessionUser.getId(), location_id);
+        return favoriteLocationService.deleteFavoriteLocation(user.getId(), location_id);
     }
 }
