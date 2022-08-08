@@ -28,7 +28,7 @@ export default {
     methods: {
         getParkingInfo() {
             axios
-            .get("http://localhost:8081/parkinglot/parkinginfo/5")
+            .get("http://ec2-3-37-217-255.ap-northeast-2.compute.amazonaws.com:8080/parkinglot/parkinginfo/5")
             .then(res => {
                 console.log(res);
                 this.setIsParked(res)

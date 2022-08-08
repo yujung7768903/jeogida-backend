@@ -39,7 +39,7 @@ public class MapController {
     @GetMapping("/{parking_lot_id}")
     public void getMapByParkingLotId(@PathVariable Integer parking_lot_id, HttpServletResponse httpServletResponse) {
         try {
-            httpServletResponse.sendRedirect("http://localhost:8081/" + parking_lot_id);
+            httpServletResponse.sendRedirect("http://ec2-3-37-217-255.ap-northeast-2.compute.amazonaws.com:8081/" + parking_lot_id);
         } catch (IOException e) {
             log.error("요청을 처리하는 과정에서 오류가 발생했습니다: {}", e);
         }
