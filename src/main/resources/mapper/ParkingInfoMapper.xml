@@ -14,13 +14,13 @@
 
     <insert id="insertParkingInfo" parameterType="com.godofparking.jeogidabackend.dto.ParkingInfoDto">
         INSERT
-        INTO parking_info(number, is_parked, parking_lot_id)
-        VALUES (#{number}, #{is_parked}, #{parking_lot_id})
+        INTO parking_info(number, is_parked, changed_at, parking_lot_id, car_id)
+        VALUES (#{number}, #{is_parked}, #{changed_at}, #{parking_lot_id}, #{car_id})
     </insert>
 
     <update id="updateParkingInfo" parameterType="com.godofparking.jeogidabackend.dto.ParkingInfoDto">
         UPDATE parking_info
-        SET number = #{number}, is_parked = #{is_parked}, parking_lot_id = #{parking_lot_id}
+        SET number = #{number}, is_parked = #{is_parked}, changed_at = #{changed_at}, parking_lot_id = #{parking_lot_id}, car_id = #{car_id}
         WHERE id = #{id}
     </update>
 

@@ -6,10 +6,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
+@Slf4j
 @Api(tags = "주차장 지도")
 @RestController
 @RequiredArgsConstructor
@@ -23,11 +27,22 @@ public class MapController {
         return mapService.getMapList();
     }
 
-    @ApiOperation(value = "아이디로 특정 지도 정보 조회")
-    @ApiImplicitParam(name = "id", value = "지도 아이디(고유 식별 번호)", required = true)
-    @GetMapping("/{id}")
-    public MapDto getMap(@PathVariable Integer id) {
-        return mapService.getMap(id);
+//    @ApiOperation(value = "아이디로 특정 지도 정보 조회")
+//    @ApiImplicitParam(name = "id", value = "지도 아이디(고유 식별 번호)", required = true)
+//    @GetMapping("/{id}")
+//    public MapDto getMap(@PathVariable Integer id) {
+//        return mapService.getMap(id);
+//    }
+
+    @ApiOperation(value = "주차장 아이디로 특정 지도 정보 조회")
+    @ApiImplicitParam(name = "parking_lot_id", value = "주차장 아이디(고유 식별 번호)", required = true)
+    @GetMapping("/{parking_lot_id}")
+    public void getMapByParkingLotId(@PathVariable Integer parking_lot_id, HttpServletResponse httpServletResponse) {
+        try {
+            httpServletResponse.sendRedirect("http://localhost:8081/" + parking_lot_id);
+        } catch (IOException e) {
+            log.error("요청을 처리하는 과정에서 오류가 발생했습니다: {}", e);
+        }
     }
 
     @ApiOperation(value = "지도 등록")
