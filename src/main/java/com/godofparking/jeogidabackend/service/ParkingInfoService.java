@@ -19,4 +19,8 @@ public interface ParkingInfoService {
     public boolean deleteParkingInfo(Integer id);
 
     public TimeGap getParkingTime(Integer id);
+
+    public ParkingInfoDto getParkingInfoByCar(Integer car_id);
+
+  //  public ParkingInfoDto getParkingInfoByCar(Integer Id);
 }
