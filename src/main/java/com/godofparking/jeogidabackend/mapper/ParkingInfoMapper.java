@@ -13,4 +13,5 @@ public interface ParkingInfoMapper {
     public int insertParkingInfo(ParkingInfoDto parkingInfoDto);
     public int updateParkingInfo(ParkingInfoDto parkingInfoDto);
     public int deleteParkingInfo(Integer id);
+    public ParkingInfoDto getParkingInfoByCar(Integer car_id);
 }

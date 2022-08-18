@@ -30,4 +30,8 @@
         WHERE id = #{id}
     </delete>
 
+    <select id="getParkingInfoByCar" resultType="com.godofparking.jeogidabackend.dto.ParkingInfoDto">
+        SELECT * FROM parking_info WHERE car_id = #{car_id}
+    </select>
+
 </mapper>

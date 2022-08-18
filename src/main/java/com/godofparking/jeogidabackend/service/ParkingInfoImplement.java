@@ -101,5 +101,9 @@ public class ParkingInfoImplement implements ParkingInfoService {
             return timeGap;
         }
     }
+    //자동차 id로 주차정보 확인
+    public ParkingInfoDto getParkingInfoByCar(Integer car_id){
+        return parkingInfoMapper.getParkingInfoByCar(car_id);
+    };
 
 }

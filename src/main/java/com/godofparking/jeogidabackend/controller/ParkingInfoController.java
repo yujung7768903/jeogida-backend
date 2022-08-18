@@ -54,4 +54,11 @@ public class ParkingInfoController {
     public TimeGap getParkingTime(@PathVariable Integer id){
         return parkingInfoService.getParkingTime(id);
     }
+
+    @ApiOperation(value = "차량정보로 주차정보 조회")
+    @GetMapping("/car/{car_id}")
+    public ParkingInfoDto getParkingInfoByCar(@PathVariable Integer car_id){
+        return parkingInfoService.getParkingInfoByCar(car_id);
+    }
+
 }
