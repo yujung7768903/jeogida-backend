@@ -3,17 +3,18 @@ package com.godofparking.jeogidabackend.controller;
 import com.godofparking.jeogidabackend.config.auth.LoginUser;
 import com.godofparking.jeogidabackend.config.auth.dto.SessionUser;
 import com.godofparking.jeogidabackend.dto.UserDto;
+import com.godofparking.jeogidabackend.dto.UserSaveRequestDto;
 import com.godofparking.jeogidabackend.service.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -84,15 +85,15 @@ public class UserController {
     }
 
     @ApiOperation(value = "로그인", notes = "구글 로그인 페이지로 이동")
-    @GetMapping("/user/login")
-    public boolean login(HttpServletResponse httpServletResponse) {
-        try {
-            httpServletResponse.sendRedirect("/oauth2/authorization/google");
-            return true;
-        } catch (IOException e) {
-            log.error("요청을 처리하는 과정에서 오류가 발생했습니다: {}", e);
-            return false;
-        }
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "로그인 성공"),
+            @ApiResponse(code = 400, message = "nickname : 이름은 빈 값을 가질 수 없습니다.\nemail : 이메일은 빈 값을 가질 수 없습니다.")
+    })
+    @PostMapping("/user/login")
+    public ResponseEntity<String> login(@Valid @RequestBody UserSaveRequestDto requestDto) {
+        userService.login(requestDto);
+
+        return ResponseEntity.status(200).body("로그인 성공");
     }
 
     @ApiOperation(value = "로그아웃", notes = "세션 종료 후 홈 api로 이동")

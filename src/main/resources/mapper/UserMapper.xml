@@ -16,10 +16,14 @@
         SELECT * FROM user WHERE email = #{email}
     </select>
 
+    <select id="findByCode" resultType="com.godofparking.jeogidabackend.dto.UserDto">
+        SELECT * FROM user WHERE code = #{code}
+    </select>
+
     <insert id="insertUser" parameterType="com.godofparking.jeogidabackend.dto.UserDto">
         INSERT
-        INTO user(email, nickname, role)
-        VALUES (#{email}, #{nickname}, #{role})
+        INTO user(email, nickname, role, photo_url, code)
+        VALUES (#{email}, #{nickname}, #{role}, #{photo_url}, #{code})
     </insert>
 
     <update id="updateUser" parameterType="com.godofparking.jeogidabackend.dto.UserDto">

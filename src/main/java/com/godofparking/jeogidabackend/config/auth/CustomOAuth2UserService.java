@@ -51,7 +51,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         userDto = userMapper.findByEmail(attributes.getEmail());
 
         if(userDto!=null){
-            userDto.update(attributes.getEmail(), attributes.getName(), Role.USER);
+            userDto.update(attributes.getEmail(), attributes.getName(), Role.USER, attributes.getPicture());
             userMapper.updateUser(userDto);
         }
         else {
