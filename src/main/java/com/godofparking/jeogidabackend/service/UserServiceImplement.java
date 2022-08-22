@@ -3,6 +3,7 @@ package com.godofparking.jeogidabackend.service;
 
 import com.godofparking.jeogidabackend.dto.Role;
 import com.godofparking.jeogidabackend.dto.UserDto;
+import com.godofparking.jeogidabackend.dto.UserSaveRequestDto;
 import com.godofparking.jeogidabackend.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,8 +29,12 @@ public class UserServiceImplement implements UserService{
     // 이메일로 유저 찾기
     @Override
     public UserDto findByEmail(String email) {
-        UserDto userDto = userMapper.findByEmail(email);
-        return userDto;
+        return userMapper.findByEmail(email);
+    }
+
+    @Override
+    public UserDto findByCode(String code) {
+        return userMapper.findByCode(code);
     }
 
     // 유저 등록
@@ -72,5 +77,16 @@ public class UserServiceImplement implements UserService{
         }
     }
 
+    @Override
+    public void login(UserSaveRequestDto requestDto) {
+        UserDto userDto = userMapper.findByCode(requestDto.getCode());
+
+        if (userDto != null) { // 중복된 코드 존재 -> 유저 정보 업데이트
+            userDto = userDto.update(requestDto.getEmail(), requestDto.getNickname(), Role.USER, requestDto.getPhoto_url());
+            userMapper.updateUser(userDto);
+        } else {
+            userMapper.insertUser(requestDto.toUser());
+        }
+    }
 
 }

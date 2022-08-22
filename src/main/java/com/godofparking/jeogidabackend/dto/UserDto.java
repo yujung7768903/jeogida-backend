@@ -18,23 +18,35 @@ public class UserDto {
     @ApiModelProperty(example = "USER")
     private Role role;
 
+    @ApiModelProperty(example = "https://lh3.googleusercontent.com/a-/AFdZucpR_TN-i3qs-t0dQk-LFdHqSIUq_Wvv10iwcAIKSw=s96-c")
+    private String photo_url;
+
+    @ApiModelProperty(example = "104480857081468893438")
+    private String code;
+
+
     @Builder
-    public UserDto(Integer id, String email, String nickname, Role role) {
+    public UserDto(Integer id, String email, String nickname, Role role, String photo_url, String code) {
         this.id = id;
         this.email = email;
         this.nickname = nickname;
         this.role = role;
+        this.photo_url = photo_url;
+        this.code = code;
     }
 
     public String getRoleKey() {
         return this.role.getKey();
     }
 
-    public UserDto update(String email, String nickname, Role role) {
+    public UserDto update(String email, String nickname, Role role, String photo_url) {
         this.email = email;
         this.nickname = nickname;
         this.role = role;
+        this.photo_url = photo_url;
 
         return this;
     }
+
+
 }
