@@ -39,6 +39,14 @@ public class UserDto {
         return this.role.getKey();
     }
 
+    public UserDto update(String email, String nickname, String photo_url) {
+        this.email = email;
+        this.nickname = nickname;
+        this.photo_url = photo_url;
+
+        return this;
+    }
+
     public UserDto update(String email, String nickname, Role role, String photo_url) {
         this.email = email;
         this.nickname = nickname;
