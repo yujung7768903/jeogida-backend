@@ -18,8 +18,8 @@
 
     <insert id="insertParkingLot" parameterType="com.godofparking.jeogidabackend.dto.ParkingLotDto">
         INSERT
-        INTO parking_lot(name, location_id, map_id)
-        VALUES (#{name}, #{location_id}, #{map_id})
+        INTO parking_lot(name, location_id, map_id, total, parked_num)
+        VALUES (#{name}, #{location_id}, #{map_id}, #{total}, #{parked_num})
     </insert>
 
     <update id="updateParkingLot" parameterType="com.godofparking.jeogidabackend.dto.ParkingLotDto">

@@ -24,11 +24,18 @@ public class ParkingLotSaveRequestDto {
     @ApiModelProperty(example = "2")
     private Integer map_id;
 
+    @NotNull(message = "주차장의 총 공간 갯수는 빈 값을 가질 수 없습니다.")
+    @Min(value = 1, message = "주차장의 총 공간 갯수는 0 또는 음수 값을 가질 수 없습니다.")
+    @ApiModelProperty(example = "4")
+    private Integer total;
+
     public ParkingLotDto toParkingLot() {
         return ParkingLotDto.builder()
                 .name(name.toUpperCase())
                 .location_id(location_id)
                 .map_id(map_id)
+                .total(total)
+                .parked_num(0)
                 .build();
     }
 
