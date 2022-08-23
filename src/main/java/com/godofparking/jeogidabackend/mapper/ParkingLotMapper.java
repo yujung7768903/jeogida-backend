@@ -2,6 +2,7 @@ package com.godofparking.jeogidabackend.mapper;
 
 import com.godofparking.jeogidabackend.dto.ParkingInfoDto;
 import com.godofparking.jeogidabackend.dto.ParkingLotDto;
+import com.godofparking.jeogidabackend.dto.ParkingLotSaveRequestDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,4 +15,5 @@ public interface ParkingLotMapper {
     public int insertParkingLot(ParkingLotDto parkingLotDto);
     public int updateParkingLot(ParkingLotDto parkingLotDto);
     public int deleteParkingLot(Integer id);
+    public ParkingLotDto checkDuplicateParkingLot(ParkingLotDto parkingLotDto);
 }

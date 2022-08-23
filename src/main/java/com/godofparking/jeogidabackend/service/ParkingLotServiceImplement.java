@@ -2,12 +2,16 @@ package com.godofparking.jeogidabackend.service;
 
 import com.godofparking.jeogidabackend.dto.ParkingInfoDto;
 import com.godofparking.jeogidabackend.dto.ParkingLotDto;
+import com.godofparking.jeogidabackend.dto.ParkingLotSaveRequestDto;
+import com.godofparking.jeogidabackend.exception.DuplicateParkingLotException;
 import com.godofparking.jeogidabackend.mapper.ParkingLotMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ParkingLotServiceImplement implements ParkingLotService{
@@ -32,27 +36,26 @@ public class ParkingLotServiceImplement implements ParkingLotService{
 
     // 주차장 추가
     @Override
-    public boolean insertParkingLot(ParkingLotDto parkingLotDto) {
+    public void insertParkingLot(ParkingLotSaveRequestDto requestDto) {
+        checkDuplicateParkingLot(requestDto);
+
         try {
-            parkingLotMapper.insertParkingLot(parkingLotDto);
-            return true;
+            parkingLotMapper.insertParkingLot(requestDto.toParkingLot());
         }catch (Exception e) {
-            System.out.println("error: " + e);
-            return false;
+            log.error("error: {}", e.getMessage());
         }
     }
 
     // 주차장 정보 수정
     @Override
     public boolean updateParkingLot(Integer id, ParkingLotDto parkingLotDto) {
-        System.out.println("전: " + parkingLotDto);
         parkingLotDto.setId(id);
-        System.out.println("후: " + parkingLotDto);
+
         try {
             parkingLotMapper.updateParkingLot(parkingLotDto);
             return true;
         }catch (Exception e) {
-            System.out.println("error: " + e);
+            log.error("error: {}", e.getMessage());
             return false;
         }
     }
@@ -64,8 +67,16 @@ public class ParkingLotServiceImplement implements ParkingLotService{
             parkingLotMapper.deleteParkingLot(id);
             return true;
         }catch (Exception e) {
-            System.out.println("error: " + e);
+            log.error("error: {}", e.getMessage());
             return false;
+        }
+    }
+
+    public void checkDuplicateParkingLot(ParkingLotSaveRequestDto requestDto) {
+        ParkingLotDto parkingLotDto = parkingLotMapper.checkDuplicateParkingLot(requestDto.toParkingLot());
+
+        if (parkingLotDto != null) {
+            throw new DuplicateParkingLotException("동일한 주차장이 이미 존재합니다");
         }
     }
 
