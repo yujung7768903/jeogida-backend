@@ -1,6 +1,7 @@
 package com.godofparking.jeogidabackend.exception;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -23,6 +24,11 @@ public class GlobalExceptionHandler {
         }
 
         return ResponseEntity.status(400).body(builder.toString());
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<String> httpMessageNotReadableError(HttpMessageNotReadableException e) {
+        return ResponseEntity.status(400).body(e.getMessage());
     }
 
 }

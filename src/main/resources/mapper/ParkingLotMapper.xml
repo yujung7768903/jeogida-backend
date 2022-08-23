@@ -18,13 +18,13 @@
 
     <insert id="insertParkingLot" parameterType="com.godofparking.jeogidabackend.dto.ParkingLotDto">
         INSERT
-        INTO parking_lot(number, location_id, map_id)
-        VALUES (#{number}, #{location_id}, #{map_id})
+        INTO parking_lot(name, location_id, map_id, total, parked_num)
+        VALUES (#{name}, #{location_id}, #{map_id}, #{total}, #{parked_num})
     </insert>
 
     <update id="updateParkingLot" parameterType="com.godofparking.jeogidabackend.dto.ParkingLotDto">
         UPDATE parking_lot
-        SET number = #{number}, location_id = #{location_id}, map_id = #{map_id}
+        SET name = #{name}, location_id = #{location_id}, map_id = #{map_id}
         WHERE id = #{id}
     </update>
 
@@ -33,5 +33,9 @@
         FROM parking_lot
         WHERE id = #{id}
     </delete>
+
+    <select id="checkDuplicateParkingLot" resultType="com.godofparking.jeogidabackend.dto.ParkingLotDto">
+        SELECT * FROM parking_lot WHERE name = #{name} AND location_id = #{location_id} AND map_id = #{map_id}
+    </select>
 
 </mapper>
