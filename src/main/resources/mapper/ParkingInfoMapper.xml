@@ -20,7 +20,13 @@
 
     <update id="updateParkingInfo" parameterType="com.godofparking.jeogidabackend.dto.ParkingInfoDto">
         UPDATE parking_info
-        SET number = #{number}, is_parked = #{is_parked}, changed_at = #{changed_at}, parking_lot_id = #{parking_lot_id}, car_id = #{car_id}
+        <set>
+            <if test="number != null">number = #{number},</if>
+            <if test="is_parked != null">is_parked = #{is_parked},</if>
+            <if test="changed_at != null">changed_at = #{changed_at},</if>
+            <if test="parking_lot_id != null">parking_lot_id = #{parking_lot_id},</if>
+            car_id = #{car_id}
+        </set>
         WHERE id = #{id}
     </update>
 
@@ -32,6 +38,10 @@
 
     <select id="getParkingInfoByCar" resultType="com.godofparking.jeogidabackend.dto.ParkingInfoDto">
         SELECT * FROM parking_info WHERE car_id = #{car_id}
+    </select>
+
+    <select id="checkInfoByNumberAndParkingLotId" parameterType="com.godofparking.jeogidabackend.dto.ParkingInfoUpdateRequestDto" resultType="com.godofparking.jeogidabackend.dto.ParkingInfoDto">
+        SELECT * FROM parking_info WHERE number = #{number} AND parking_lot_id = #{parking_lot_id}
     </select>
 
 </mapper>
