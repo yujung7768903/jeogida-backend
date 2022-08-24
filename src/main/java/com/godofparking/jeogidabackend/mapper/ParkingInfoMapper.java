@@ -1,6 +1,7 @@
 package com.godofparking.jeogidabackend.mapper;
 
 import com.godofparking.jeogidabackend.dto.ParkingInfoDto;
+import com.godofparking.jeogidabackend.dto.ParkingInfoUpdateRequestDto;
 import com.godofparking.jeogidabackend.dto.ParkingLotDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,4 +15,5 @@ public interface ParkingInfoMapper {
     public int updateParkingInfo(ParkingInfoDto parkingInfoDto);
     public int deleteParkingInfo(Integer id);
     public ParkingInfoDto getParkingInfoByCar(Integer car_id);
+    public ParkingInfoDto checkInfoByNumberAndParkingLotId(ParkingInfoUpdateRequestDto requestDto);
 }

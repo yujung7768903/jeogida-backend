@@ -2,6 +2,7 @@ package com.godofparking.jeogidabackend.service;
 
 import com.godofparking.jeogidabackend.config.auth.time.TimeGap;
 import com.godofparking.jeogidabackend.dto.ParkingInfoDto;
+import com.godofparking.jeogidabackend.dto.ParkingInfoUpdateRequestDto;
 import com.godofparking.jeogidabackend.dto.ParkingLotDto;
 
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ public interface ParkingInfoService {
 
     public boolean insertParkingInfo(ParkingInfoDto parkingInfoDto);
 
-    public boolean updateParkingInfo(Integer id, ParkingInfoDto parkingInfoDto);
+    public void updateParkingInfo(ParkingInfoUpdateRequestDto requestDto);
 
     public boolean deleteParkingInfo(Integer id);
 
@@ -22,5 +23,4 @@ public interface ParkingInfoService {
 
     public ParkingInfoDto getParkingInfoByCar(Integer car_id);
 
-  //  public ParkingInfoDto getParkingInfoByCar(Integer Id);
 }

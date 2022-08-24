@@ -2,9 +2,11 @@ package com.godofparking.jeogidabackend.service;
 
 import com.godofparking.jeogidabackend.config.auth.time.TimeGap;
 import com.godofparking.jeogidabackend.dto.ParkingInfoDto;
+import com.godofparking.jeogidabackend.dto.ParkingInfoUpdateRequestDto;
 import com.godofparking.jeogidabackend.dto.ParkingLotDto;
 import com.godofparking.jeogidabackend.mapper.ParkingInfoMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -13,10 +15,12 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class ParkingInfoImplement implements ParkingInfoService {
     private final ParkingInfoMapper parkingInfoMapper;
+    private final ParkingLotService parkingLotService;
 
     // 모든 주차정보 조회
     @Override
@@ -39,32 +43,25 @@ public class ParkingInfoImplement implements ParkingInfoService {
             parkingInfoMapper.insertParkingInfo(parkingInfoDto);
             return true;
         } catch (Exception e) {
-            System.out.println("error: " + e);
+            log.error("error: {}", e.getMessage());
             return false;
         }
     }
 
     // 주차 정보 수정
     @Override
-    public boolean updateParkingInfo(Integer id, ParkingInfoDto parkingInfoDto) {
-        System.out.println("전: " + parkingInfoDto);
-        parkingInfoDto.setId(id);
-        System.out.println("후: " + parkingInfoDto);
+    public void updateParkingInfo(ParkingInfoUpdateRequestDto requestDto) {
+        ParkingInfoDto parkingInfoDto = checkInfoByNumberAndParkingLotId(requestDto);
 
-        // 이전 주차정보 상태
-        ParkingInfoDto before = new ParkingInfoDto();
-        before = parkingInfoMapper.getParkingInfo(id);
         // 만약 이전과 주차상태가 변경되었다면
-        if (before.getIs_parked() != parkingInfoDto.getIs_parked()) {
-            parkingInfoDto.setChanged_at(LocalDateTime.now());
-        }
-
-        try {
+        if (parkingInfoDto.getIs_parked() != requestDto.getIs_parked()) {
+            parkingInfoDto.update(requestDto.getIs_parked());
             parkingInfoMapper.updateParkingInfo(parkingInfoDto);
-            return true;
-        } catch (Exception e) {
-            System.out.println("error: " + e);
-            return false;
+            if (parkingInfoDto.getIs_parked() == true) { // 주차된 상태로 변경되었다면, 주차된 차량 수 증가
+                parkingLotService.increaseParkedNum(parkingInfoDto.getParking_lot_id());
+            } else {
+                parkingLotService.decreaseParkedNum(parkingInfoDto.getParking_lot_id());
+            }
         }
     }
 
@@ -75,7 +72,7 @@ public class ParkingInfoImplement implements ParkingInfoService {
             parkingInfoMapper.deleteParkingInfo(id);
             return true;
         } catch (Exception e) {
-            System.out.println("error: " + e);
+            log.error("error: {}", e.getMessage());
             return false;
         }
     }
@@ -105,5 +102,15 @@ public class ParkingInfoImplement implements ParkingInfoService {
     public ParkingInfoDto getParkingInfoByCar(Integer car_id){
         return parkingInfoMapper.getParkingInfoByCar(car_id);
     };
+
+    public ParkingInfoDto checkInfoByNumberAndParkingLotId(ParkingInfoUpdateRequestDto requestDto) {
+        ParkingInfoDto parkingInfoDto = parkingInfoMapper.checkInfoByNumberAndParkingLotId(requestDto);
+
+        if (parkingInfoDto == null) {
+            throw new IllegalArgumentException("해당 number와 parking_lot_id를 가진 주차 공간은 존재하지 않습니다.");
+        }
+
+        return parkingInfoDto;
+    }
 
 }

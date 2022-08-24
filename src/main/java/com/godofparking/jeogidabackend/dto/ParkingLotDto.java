@@ -33,4 +33,16 @@ public class ParkingLotDto {
         this.total = total;
         this.parked_num = parked_num;
     }
+
+    public ParkingLotDto increaseParkedNum() {
+        this.parked_num++;
+
+        return this;
+    }
+
+    public ParkingLotDto decreaseParkedNum() {
+        this.parked_num--;
+
+        return this;
+    }
 }

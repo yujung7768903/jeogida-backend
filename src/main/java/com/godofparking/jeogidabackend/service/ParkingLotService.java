@@ -17,5 +17,9 @@ public interface ParkingLotService {
 
     public boolean updateParkingLot(Integer id, ParkingLotDto parkingLotDto);
 
+    public void increaseParkedNum(Integer id);
+
+    public void decreaseParkedNum(Integer id);
+
     public boolean deleteParkingLot(Integer id);
 }

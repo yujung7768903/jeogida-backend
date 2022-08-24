@@ -41,7 +41,7 @@ public class ParkingLotServiceImplement implements ParkingLotService{
 
         try {
             parkingLotMapper.insertParkingLot(requestDto.toParkingLot());
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error("error: {}", e.getMessage());
         }
     }
@@ -54,9 +54,35 @@ public class ParkingLotServiceImplement implements ParkingLotService{
         try {
             parkingLotMapper.updateParkingLot(parkingLotDto);
             return true;
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error("error: {}", e.getMessage());
             return false;
+        }
+    }
+
+    @Override
+    public void increaseParkedNum(Integer id) {
+        ParkingLotDto parkingLotDto = checkParkingLotById(id);
+
+        parkingLotDto.increaseParkedNum();
+
+        try {
+            parkingLotMapper.updateParkingLot(parkingLotDto);
+        } catch (Exception e) {
+            log.error("error: {}", e.getMessage());
+        }
+    }
+
+    @Override
+    public void decreaseParkedNum(Integer id) {
+        ParkingLotDto parkingLotDto = checkParkingLotById(id);
+
+        parkingLotDto.decreaseParkedNum();
+
+        try {
+            parkingLotMapper.updateParkingLot(parkingLotDto);
+        } catch (Exception e) {
+            log.error("error: {}", e.getMessage());
         }
     }
 
@@ -66,7 +92,7 @@ public class ParkingLotServiceImplement implements ParkingLotService{
         try {
             parkingLotMapper.deleteParkingLot(id);
             return true;
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error("error: {}", e.getMessage());
             return false;
         }
@@ -78,6 +104,16 @@ public class ParkingLotServiceImplement implements ParkingLotService{
         if (parkingLotDto != null) {
             throw new DuplicateParkingLotException("동일한 주차장이 이미 존재합니다");
         }
+    }
+
+    public ParkingLotDto checkParkingLotById(Integer id) {
+        ParkingLotDto parkingLotDto = parkingLotMapper.getParkingLot(id);
+
+        if (parkingLotDto == null) {
+            throw new IllegalArgumentException("해당 아이디를 가진 주차장은 존재하지 않습니다.");
+        }
+
+        return parkingLotDto;
     }
 
 }
