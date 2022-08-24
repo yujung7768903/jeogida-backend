@@ -4,12 +4,16 @@ package com.godofparking.jeogidabackend.service;
 import com.godofparking.jeogidabackend.dto.Role;
 import com.godofparking.jeogidabackend.dto.UserDto;
 import com.godofparking.jeogidabackend.dto.UserSaveRequestDto;
+import com.godofparking.jeogidabackend.dto.UserUpdateRequestDto;
 import com.godofparking.jeogidabackend.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserServiceImplement implements UserService{
@@ -22,8 +26,10 @@ public class UserServiceImplement implements UserService{
     }
 
     @Override
-    public UserDto getUser(Integer id) {
-        return userMapper.getUser(id);
+    public UserDto getUser(String code) {
+        UserDto userDto = checkUserByCode(code);
+
+        return userDto;
     }
 
     // 이메일로 유저 찾기
@@ -39,40 +45,41 @@ public class UserServiceImplement implements UserService{
 
     // 유저 등록
     @Override
-    public boolean insertUser(UserDto userDto) {
-        if (userDto.getRole() == null) {
-            userDto.setRole(Role.GUEST);
-        }
-        try {
-            userMapper.insertUser(userDto);
-            return true;
-        }catch (Exception e) {
-            System.out.println("error: " + e);
-            return false;
+    public void insertUser(UserSaveRequestDto requestDto) {
+        UserDto userDto = userMapper.findByCode(requestDto.getCode());
+
+        if (userDto != null) {
+            throw new IllegalArgumentException("해당 코드를 가진 유저가 이미 존재합니다.");
+        } else {
+            userMapper.insertUser(requestDto.toUser());
         }
     }
 
     // 유저 정보 수정
     @Override
-    public boolean updateUser(Integer id, UserDto userDto) {
-        userDto.setId(id);
+    public boolean updateUser(String code, UserUpdateRequestDto requestDto) {
+        UserDto userDto = checkUserByCode(code);
+
         try {
+            userDto.update(requestDto.getEmail(), requestDto.getNickname(), requestDto.getPhoto_url());
             userMapper.updateUser(userDto);
             return true;
         }catch (Exception e) {
-            System.out.println("error: " + e);
+            log.error("error: {}", e.getMessage());
             return false;
         }
     }
 
     // 유저 삭제
     @Override
-    public boolean deleteUser(Integer id) {
+    public boolean deleteUser(String code) {
+        UserDto userDto = checkUserByCode(code);
+
         try {
-            userMapper.deleteUser(id);
+            userMapper.deleteUser(code);
             return true;
         }catch (Exception e) {
-            System.out.println("error: " + e);
+            log.error("error: {}", e.getMessage());
             return false;
         }
     }
@@ -87,6 +94,16 @@ public class UserServiceImplement implements UserService{
         } else {
             userMapper.insertUser(requestDto.toUser());
         }
+    }
+
+    public UserDto checkUserByCode(String code) {
+        UserDto userDto = userMapper.getUser(code);
+
+        if (userDto == null) {
+            throw new IllegalArgumentException("해당 코드를 가진 유저는 존재하지 않습니다.");
+        }
+
+        return userDto;
     }
 
 }

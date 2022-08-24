@@ -9,11 +9,11 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
     public List<UserDto> getUserList();
-    public UserDto getUser(Integer id);
+    public UserDto getUser(String code);
     public int insertUser(UserDto userDto);
     public UserDto findByEmail(String email);
 
     public UserDto findByCode(String code);
     public int updateUser(UserDto userDto);
-    public int deleteUser(Integer id);
+    public int deleteUser(String code);
 }

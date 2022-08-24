@@ -9,7 +9,7 @@
     </select>
 
     <select id="getUser" resultType="com.godofparking.jeogidabackend.dto.UserDto">
-        SELECT * FROM user WHERE id = #{id}
+        SELECT * FROM user WHERE code = #{code}
     </select>
 
     <select id="findByEmail" resultType="com.godofparking.jeogidabackend.dto.UserDto">
@@ -28,14 +28,19 @@
 
     <update id="updateUser" parameterType="com.godofparking.jeogidabackend.dto.UserDto">
         UPDATE user
-        SET email = #{email}, nickname = #{nickname}, role = #{role}
+        <set>
+            <if test="email != null">email = #{email},</if>
+            <if test="nickname != null">nickname = #{nickname},</if>
+            <if test="role != null">role = #{role},</if>
+            <if test="photo_url != null">photo_url = #{photo_url}</if>
+        </set>
         WHERE id = #{id}
     </update>
 
-    <delete id="deleteUser" parameterType="_integer">
+    <delete id="deleteUser" parameterType="string">
         DELETE
         FROM user
-        WHERE id = #{id}
+        WHERE code = #{code}
     </delete>
 
 </mapper>
