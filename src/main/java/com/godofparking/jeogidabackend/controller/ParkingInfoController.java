@@ -2,14 +2,19 @@ package com.godofparking.jeogidabackend.controller;
 
 import com.godofparking.jeogidabackend.config.auth.time.TimeGap;
 import com.godofparking.jeogidabackend.dto.ParkingInfoDto;
+import com.godofparking.jeogidabackend.dto.ParkingInfoUpdateRequestDto;
 import com.godofparking.jeogidabackend.dto.ParkingLotDto;
 import com.godofparking.jeogidabackend.service.ParkingInfoService;
 import com.godofparking.jeogidabackend.service.ParkingLotService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = "주차 유무 정보")
@@ -38,9 +43,18 @@ public class ParkingInfoController {
     }
 
     @ApiOperation(value = "주차 정보 수정")
-    @PatchMapping("/{id}")
-    public boolean updateParkingInfo(@PathVariable Integer id, @RequestBody ParkingInfoDto parkingInfoDto) {
-        return parkingInfoService.updateParkingInfo(id, parkingInfoDto);
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "주차 정보 수정 완료"),
+            @ApiResponse(code = 400, message = "해당 number와 parking_lot_id를 가진 주차 공간은 존재하지 않습니다.")
+    })
+    @PatchMapping("")
+    public ResponseEntity<String> updateParkingInfo(@Valid @RequestBody ParkingInfoUpdateRequestDto requestDto) {
+        try {
+            parkingInfoService.updateParkingInfo(requestDto);
+            return ResponseEntity.status(200).body("주차 정보 수정 완료");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 
     @ApiOperation(value = "주차 정보 삭제")
