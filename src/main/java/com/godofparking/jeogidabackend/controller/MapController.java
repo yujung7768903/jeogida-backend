@@ -64,4 +64,10 @@ public class MapController {
     public boolean deleteMap(@PathVariable Integer id) {
         return mapService.deleteMap(id);
     }
+
+    @ApiOperation(value = "모든 지도 조회")
+    @GetMapping("/car/{id}")
+    public MapDto getMapByParkingLot(@PathVariable Integer id) {
+        return mapService.getMapByParkingLot(id);
+    }
 }

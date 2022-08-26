@@ -14,4 +14,6 @@ public interface MapService {
     public boolean updateMap(Integer id, MapDto mapDto);
 
     public boolean deleteMap(Integer id);
+
+    public MapDto getMapByParkingLot(Integer id);
 }
