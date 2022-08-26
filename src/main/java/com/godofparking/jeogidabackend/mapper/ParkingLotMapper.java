@@ -15,4 +15,5 @@ public interface ParkingLotMapper {
     public int updateParkingLot(ParkingLotDto parkingLotDto);
     public int deleteParkingLot(Integer id);
     public ParkingLotDto checkDuplicateParkingLot(ParkingLotDto parkingLotDto);
+    public List<ParkingLotDto> getParkingLotByLocation(Integer id);
 }

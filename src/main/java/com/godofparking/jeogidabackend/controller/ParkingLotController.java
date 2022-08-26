@@ -67,4 +67,10 @@ public class ParkingLotController {
     public boolean deleteParkingLot(@PathVariable Integer id) {
         return parkingLotService.deleteParkingLot(id);
     }
+
+    @ApiOperation(value = "모든 주차장 정보 조회")
+    @GetMapping("/location/{id}")
+    public List<ParkingLotDto> getParkingLotByLocation(Integer id) {
+        return parkingLotService.getParkingLotByLocation(id);
+    }
 }
