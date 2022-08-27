@@ -34,6 +34,14 @@
         WHERE id = #{id}
     </delete>
 
+    <select id="getMapByParkingLot" resultType="com.godofparking.jeogidabackend.dto.MapDto">
+        select b.id as id, b.name as name, b.path as path
+        from
+            parking_lot as a
+                inner join map as b on a.map_id = b.id
+        where a.id = #{id};
+    </select>
+
 </mapper>
 
 

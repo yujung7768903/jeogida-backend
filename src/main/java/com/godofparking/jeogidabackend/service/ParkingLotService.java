@@ -22,4 +22,6 @@ public interface ParkingLotService {
     public void decreaseParkedNum(Integer id);
 
     public boolean deleteParkingLot(Integer id);
+
+    public List<ParkingLotDto> getParkingLotByLocation(Integer id);
 }

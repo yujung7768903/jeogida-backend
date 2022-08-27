@@ -13,4 +13,5 @@ public interface MapMapper {
     public int insertMap(MapDto mapDto);
     public int updateMap(MapDto mapDto);
     public int deleteMap(Integer id);
+    public MapDto getMapByParkingLot(Integer id);
 }

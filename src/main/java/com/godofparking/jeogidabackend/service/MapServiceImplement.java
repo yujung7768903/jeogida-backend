@@ -66,4 +66,10 @@ public class MapServiceImplement implements MapService {
         }
     }
 
+    // parking_lot id로 map 조회
+    @Override
+    public MapDto getMapByParkingLot(Integer id) {
+        return mapMapper.getMapByParkingLot(id);
+    }
+
 }

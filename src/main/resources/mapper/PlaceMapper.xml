@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.godofparking.jeogidabackend.mapper.PlaceMapper">
+
+    <select id="getPlaceByCar" resultType="com.godofparking.jeogidabackend.dto.PlaceDto">
+        select
+            a.id as parking_lot_id, a.name as parking_lot_name, a.total as parking_lot_total, a.parked_num as parking_lot_parked_num,
+            b.id as parking_info_id, b.number as parking_info_number, b.is_parked as parking_info_is_parked, b.changed_at as parking_info_changed_at,
+            c.id as location_id, c.name as location_name,
+            d.id as map_id, d.path as location_path
+        from
+            parking_lot as a
+                inner join parking_info as b on b.parking_lot_id = a.id
+                inner join location as c on a.location_id = c.id
+                inner join map as d on a.map_id = d.id
+        where b.car_id = #{id}
+    </select>
+
+
+
+</mapper>
