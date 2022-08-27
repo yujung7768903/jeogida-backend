@@ -68,9 +68,4 @@ public class ParkingLotController {
         return parkingLotService.deleteParkingLot(id);
     }
 
-    @ApiOperation(value = "특정 건물의 주차장 정보 조회")
-    @GetMapping("/location/{id}")
-    public List<ParkingLotDto> getParkingLotByLocation(Integer id) {
-        return parkingLotService.getParkingLotByLocation(id);
-    }
 }
