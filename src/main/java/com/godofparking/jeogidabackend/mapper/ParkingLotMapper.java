@@ -8,6 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface ParkingLotMapper {
+
     public List<ParkingLotDto> getParkingLotList();
     public ParkingLotDto getParkingLot(Integer id);
     public List<ParkingInfoDto> getInfoListByParkingLotId(Integer parking_lot_id);
@@ -15,5 +16,5 @@ public interface ParkingLotMapper {
     public int updateParkingLot(ParkingLotDto parkingLotDto);
     public int deleteParkingLot(Integer id);
     public ParkingLotDto checkDuplicateParkingLot(ParkingLotDto parkingLotDto);
-    public List<ParkingLotDto> getParkingLotByLocation(Integer id);
+
 }

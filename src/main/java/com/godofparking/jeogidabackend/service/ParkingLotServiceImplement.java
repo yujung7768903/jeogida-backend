@@ -116,10 +116,4 @@ public class ParkingLotServiceImplement implements ParkingLotService{
         return parkingLotDto;
     }
 
-    // 특정 건물의 모든 주차장 조회
-    @Override
-    public List<ParkingLotDto> getParkingLotByLocation(Integer id) {
-        return parkingLotMapper.getParkingLotByLocation(id);
-    }
-
 }

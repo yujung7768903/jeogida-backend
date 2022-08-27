@@ -44,8 +44,4 @@
         SELECT * FROM parking_lot WHERE name = #{name} AND location_id = #{location_id} AND map_id = #{map_id}
     </select>
 
-    <select id="getParkingLotByLocation" resultType="com.godofparking.jeogidabackend.dto.ParkingLotDto">
-        SELECT * FROM parking_lot WHERE location_id = #{id}
-    </select>
-
 </mapper>
