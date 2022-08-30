@@ -1,6 +1,7 @@
 package com.godofparking.jeogidabackend.service;
 
 import com.godofparking.jeogidabackend.dto.CarDto;
+import com.godofparking.jeogidabackend.dto.UserDto;
 import com.godofparking.jeogidabackend.mapper.CarMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import java.util.List;
 @Service
 public class CarServiceImplement implements CarService{
     private final CarMapper carMapper;
+    private final UserService userService;
 
     @Override
     public List<CarDto> getCarList() {
@@ -18,8 +20,10 @@ public class CarServiceImplement implements CarService{
     }
 
     @Override
-    public List<CarDto> getCarById(Integer user_id) {
-        return carMapper.getCarById(user_id);
+    public List<CarDto> getCarById(String user_code) {
+        UserDto userDto = userService.getUser(user_code);
+
+        return carMapper.getCarById(userDto.getId());
     }
 
     @Override
@@ -46,13 +50,12 @@ public class CarServiceImplement implements CarService{
     }
 
     @Override
-    public boolean deleteCar(Integer user_id, Integer id) {
+    public void deleteCar(String user_code, Integer id) {
         try {
-            carMapper.deleteCar(user_id, id);
-            return true;
+            UserDto userDto = userService.getUser(user_code);
+            carMapper.deleteCar(userDto.getId(), id);
         }catch (Exception e) {
             System.out.println("error: " + e);
-            return false;
         }
     }
 }
