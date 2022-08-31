@@ -53,9 +53,11 @@ public class CarServiceImplement implements CarService{
 
     @Override
     public void deleteCar(String user_code, Integer id) {
+        UserDto userDto = userService.getUser(user_code);
+        CarDto carDto = checkCarByUserAndCarId(userDto.getId(), id);
+
         try {
-            UserDto userDto = userService.getUser(user_code);
-            carMapper.deleteCar(userDto.getId(), id);
+            carMapper.deleteCar(carDto);
         }catch (Exception e) {
             System.out.println("error: " + e);
         }

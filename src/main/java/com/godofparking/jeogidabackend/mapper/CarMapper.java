@@ -12,5 +12,5 @@ public interface CarMapper {
     public List<CarDto> getCarByUserId(Integer user_id);
     public int insertCar(CarDto carDto);
     public int updateCar(CarDto carDto);
-    public int deleteCar(Integer user_id, Integer id);
+    public int deleteCar(CarDto carDto);
 }
