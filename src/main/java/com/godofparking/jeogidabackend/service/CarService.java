@@ -1,13 +1,14 @@
 package com.godofparking.jeogidabackend.service;
 
 import com.godofparking.jeogidabackend.dto.CarDto;
+import com.godofparking.jeogidabackend.dto.CarUpdateRequestDto;
 
 import java.util.List;
 
 public interface CarService {
     public List<CarDto> getCarList();
-    public List<CarDto> getCarById(String user_code);
+    public List<CarDto> getCarByUserId(String user_code);
     public boolean insertCar(CarDto carDto);
-    public boolean updateCar(Integer id, CarDto carDto);
+    public void updateCar(String user_code, Integer id, CarUpdateRequestDto requestDto);
     public void deleteCar(String user_code, Integer id);
 }

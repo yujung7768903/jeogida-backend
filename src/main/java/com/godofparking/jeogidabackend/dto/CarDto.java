@@ -16,4 +16,11 @@ public class CarDto {
 
     @ApiModelProperty(example = "1")
     private Integer user_id;
+
+    public CarDto update(String number, String name) {
+        this.number = number;
+        this.name = name;
+
+        return this;
+    }
 }

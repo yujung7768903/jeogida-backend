@@ -8,7 +8,11 @@
         SELECT * From car
     </select>
 
-    <select id="getCarById" resultType="com.godofparking.jeogidabackend.dto.CarDto">
+    <select id="getCarByUserAndCarId" resultType="com.godofparking.jeogidabackend.dto.CarDto">
+        SELECT * From car WHERE id = #{id} AND user_id = #{user_id}
+    </select>
+
+    <select id="getCarByUserId" resultType="com.godofparking.jeogidabackend.dto.CarDto">
         SELECT * From car WHERE user_id = #{user_id}
     </select>
 
@@ -20,8 +24,11 @@
 
     <update id="updateCar" parameterType="com.godofparking.jeogidabackend.dto.CarDto">
         UPDATE car
-        SET number = #{number}, name = #{name}, user_id = #{user_id}
-        WHERE id = #{id}
+        <set>
+            <if test="number != null">number = #{number},</if>
+            <if test="name != null">name = #{name}</if>
+        </set>
+        WHERE id = #{id} AND user_id = #{user_id}
     </update>
 
     <delete id="deleteCar">
