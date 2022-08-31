@@ -1,6 +1,7 @@
 package com.godofparking.jeogidabackend.controller;
 
 import com.godofparking.jeogidabackend.dto.CarDto;
+import com.godofparking.jeogidabackend.dto.CarSaveRequestDto;
 import com.godofparking.jeogidabackend.dto.CarUpdateRequestDto;
 import com.godofparking.jeogidabackend.service.CarService;
 import io.swagger.annotations.*;
@@ -40,9 +41,19 @@ public class CarController {
     }
 
     @ApiOperation(value = "차량 등록")
-    @PostMapping("/car")
-    public boolean save(@RequestBody CarDto carDto) {
-        return carService.insertCar(carDto);
+    @ApiImplicitParam(name = "user_code", value = "구글 로그인 후 반환되는 데이터 중 id에 해당하는 값", required = true)
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "차량 등록 완료"),
+            @ApiResponse(code = 400, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
+    })
+    @PostMapping("/car/{user_code}")
+    public ResponseEntity<String> save(@PathVariable String user_code, @Valid @RequestBody CarSaveRequestDto requestDto) {
+        try {
+            carService.insertCar(user_code, requestDto);
+            return ResponseEntity.status(201).body("차량 등록 완료");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 
     @ApiOperation(value = "차량 정보 수정")

@@ -1,6 +1,7 @@
 package com.godofparking.jeogidabackend.service;
 
 import com.godofparking.jeogidabackend.dto.CarDto;
+import com.godofparking.jeogidabackend.dto.CarSaveRequestDto;
 import com.godofparking.jeogidabackend.dto.CarUpdateRequestDto;
 import com.godofparking.jeogidabackend.dto.UserDto;
 import com.godofparking.jeogidabackend.mapper.CarMapper;
@@ -28,13 +29,14 @@ public class CarServiceImplement implements CarService{
     }
 
     @Override
-    public boolean insertCar(CarDto carDto) {
+    public void insertCar(String user_code, CarSaveRequestDto requestDto) {
+        UserDto userDto = userService.getUser(user_code);
+        CarDto carDto = requestDto.toCar(userDto.getId());
+
         try {
             carMapper.insertCar(carDto);
-            return true;
         }catch (Exception e) {
             System.out.println("error: " + e);
-            return false;
         }
     }
 
