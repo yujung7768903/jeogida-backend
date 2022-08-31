@@ -1,6 +1,9 @@
 package com.godofparking.jeogidabackend.service;
 
 import com.godofparking.jeogidabackend.dto.CarDto;
+import com.godofparking.jeogidabackend.dto.CarSaveRequestDto;
+import com.godofparking.jeogidabackend.dto.CarUpdateRequestDto;
+import com.godofparking.jeogidabackend.dto.UserDto;
 import com.godofparking.jeogidabackend.mapper.CarMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,7 @@ import java.util.List;
 @Service
 public class CarServiceImplement implements CarService{
     private final CarMapper carMapper;
+    private final UserService userService;
 
     @Override
     public List<CarDto> getCarList() {
@@ -18,41 +22,56 @@ public class CarServiceImplement implements CarService{
     }
 
     @Override
-    public List<CarDto> getCarById(Integer user_id) {
-        return carMapper.getCarById(user_id);
+    public List<CarDto> getCarByUserId(String user_code) {
+        UserDto userDto = userService.getUser(user_code);
+
+        return carMapper.getCarByUserId(userDto.getId());
     }
 
     @Override
-    public boolean insertCar(CarDto carDto) {
+    public void insertCar(String user_code, CarSaveRequestDto requestDto) {
+        UserDto userDto = userService.getUser(user_code);
+        CarDto carDto = requestDto.toCar(userDto.getId());
+
         try {
             carMapper.insertCar(carDto);
-            return true;
         }catch (Exception e) {
             System.out.println("error: " + e);
-            return false;
         }
     }
 
     @Override
-    public boolean updateCar(Integer id, CarDto carDto) {
-        carDto.setId(id);
+    public void updateCar(String user_code, Integer id, CarUpdateRequestDto requestDto) {
+        UserDto userDto = userService.getUser(user_code);
+        CarDto carDto = checkCarByUserAndCarId(userDto.getId(), id);
+
         try {
+            carDto = carDto.update(requestDto.getNumber(), requestDto.getName());
             carMapper.updateCar(carDto);
-            return true;
         }catch (Exception e) {
             System.out.println("error: " + e);
-            return false;
         }
     }
 
     @Override
-    public boolean deleteCar(Integer user_id, Integer id) {
+    public void deleteCar(String user_code, Integer id) {
+        UserDto userDto = userService.getUser(user_code);
+        CarDto carDto = checkCarByUserAndCarId(userDto.getId(), id);
+
         try {
-            carMapper.deleteCar(user_id, id);
-            return true;
+            carMapper.deleteCar(carDto);
         }catch (Exception e) {
             System.out.println("error: " + e);
-            return false;
         }
+    }
+
+    public CarDto checkCarByUserAndCarId(Integer user_id, Integer id) {
+        CarDto carDto = carMapper.getCarByUserAndCarId(user_id, id);
+
+        if (carDto == null) {
+            throw new IllegalArgumentException(id + "번은 해당 유저가 등록한 차량이 아닙니다.");
+        }
+
+        return carDto;
     }
 }

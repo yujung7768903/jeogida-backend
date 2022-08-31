@@ -1,14 +1,15 @@
 package com.godofparking.jeogidabackend.controller;
 
 import com.godofparking.jeogidabackend.dto.CarDto;
+import com.godofparking.jeogidabackend.dto.CarSaveRequestDto;
+import com.godofparking.jeogidabackend.dto.CarUpdateRequestDto;
 import com.godofparking.jeogidabackend.service.CarService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = {"즐겨 찾는 차량"})
@@ -24,33 +25,73 @@ public class CarController {
     }
 
     @ApiOperation(value = "유저가 즐겨찾는 모든 차량 조회")
-    @ApiImplicitParam(name = "user_id", value = "유저 아이디(고유 식별 번호)", required = true)
-    @GetMapping("/car/{user_id}")
-    public List<CarDto> getCarById(@PathVariable Integer user_id) {
-        return carService.getCarById(user_id);
+    @ApiImplicitParam(name = "user_code", value = "구글 로그인 후 반환되는 데이터 중 id에 해당하는 값", required = true)
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "", response = CarDto.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
+    })
+    @GetMapping("/car/{user_code}")
+    public ResponseEntity<Object> getCarById(@PathVariable String user_code) {
+        try {
+            List<CarDto> carDtoList = carService.getCarByUserId(user_code);
+            return ResponseEntity.status(200).body(carDtoList);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 
     @ApiOperation(value = "차량 등록")
-    @PostMapping("/car")
-    public boolean save(@RequestBody CarDto carDto) {
-        return carService.insertCar(carDto);
+    @ApiImplicitParam(name = "user_code", value = "구글 로그인 후 반환되는 데이터 중 id에 해당하는 값", required = true)
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "차량 등록 완료"),
+            @ApiResponse(code = 400, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
+    })
+    @PostMapping("/car/{user_code}")
+    public ResponseEntity<String> save(@PathVariable String user_code, @Valid @RequestBody CarSaveRequestDto requestDto) {
+        try {
+            carService.insertCar(user_code, requestDto);
+            return ResponseEntity.status(201).body("차량 등록 완료");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 
     @ApiOperation(value = "차량 정보 수정")
-    @ApiImplicitParam(name = "id", value = "차량 아이디(고유 식별 번호)", required = true)
-    @PatchMapping("/car/{id}")
-    public boolean updateCar(@PathVariable Integer id, @RequestBody CarDto carDto) {
-        return carService.updateCar(id, carDto);
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user_code", value = "구글 로그인 후 반환되는 데이터 중 id에 해당하는 값", required = true),
+            @ApiImplicitParam(name = "id", value = "차량 아이디(고유 식별 번호)", required = true)
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "차량 수정 완료"),
+            @ApiResponse(code = 400, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
+    })
+    @PatchMapping("/car/{user_code}/{id}")
+    public ResponseEntity<String> updateCar(@PathVariable String user_code, @PathVariable Integer id, @Valid @RequestBody CarUpdateRequestDto requestDto) {
+        try {
+            carService.updateCar(user_code, id, requestDto);
+            return ResponseEntity.status(200).body("차량 정보 수정 완료");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 
     @ApiOperation(value = "차량 삭제")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "user_id", value = "유저 아이디(고유 식별 번호)", required = true),
+            @ApiImplicitParam(name = "user_code", value = "구글 로그인 후 반환되는 데이터 중 id에 해당하는 값", required = true),
             @ApiImplicitParam(name = "id", value = "차량 아이디(고유 식별 번호)", required = true)
     })
-    @DeleteMapping("/car/{user_id}/{id}")
-    public boolean deleteCar(@PathVariable Integer user_id, @PathVariable Integer id) {
-        return carService.deleteCar(user_id, id);
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "차량 삭제 완료"),
+            @ApiResponse(code = 400, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
+    })
+    @DeleteMapping("/car/{user_code}/{id}")
+    public ResponseEntity<String> deleteCar(@PathVariable String user_code, @PathVariable Integer id) {
+        try {
+            carService.deleteCar(user_code, id);
+            return ResponseEntity.status(200).body("차량 삭제 완료");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 
 }
