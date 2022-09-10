@@ -19,7 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FavoriteLocationController {
     private final FavoriteLocationService favoriteLocationService;
-    private final HttpSession httpSession;
 
     @ApiOperation(value = "유저가 즐겨찾는 모든 장소 조회")
     @ApiImplicitParam(name = "user_code", value = "구글 로그인 후 반환되는 데이터 중 id에 해당하는 값", required = true)
