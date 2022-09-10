@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface FavoriteLocationService {
     public List<FavoriteLocationDto> getFavoriteLocationList();
-    public List<LocationDto> getFavoriteLocationById(Integer user_id);
-    public boolean insertFavoriteLocation(Integer user_id, Integer location_id);
-    public boolean deleteFavoriteLocation(Integer user_id, Integer location_id);
+    public List<LocationDto> getFavoriteLocationById(String user_code);
+    public void insertFavoriteLocation(String user_code, Integer location_id);
+    public void deleteFavoriteLocation(String user_code, Integer location_id);
 }

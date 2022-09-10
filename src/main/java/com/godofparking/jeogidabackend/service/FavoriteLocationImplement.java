@@ -2,6 +2,7 @@ package com.godofparking.jeogidabackend.service;
 
 import com.godofparking.jeogidabackend.dto.FavoriteLocationDto;
 import com.godofparking.jeogidabackend.dto.LocationDto;
+import com.godofparking.jeogidabackend.dto.UserDto;
 import com.godofparking.jeogidabackend.mapper.FavoriteLocationMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import java.util.List;
 @Service
 public class FavoriteLocationImplement implements FavoriteLocationService{
     private final FavoriteLocationMapper favoriteLocationMapper;
+    private final UserService userService;
 
     @Override
     public List<FavoriteLocationDto> getFavoriteLocationList() {
@@ -21,35 +23,46 @@ public class FavoriteLocationImplement implements FavoriteLocationService{
     }
 
     @Override
-    public List<LocationDto> getFavoriteLocationById(Integer user_id) {
-        log.info("Service: User Id: {}", user_id);
-        return favoriteLocationMapper.getFavoriteLocationById(user_id);
+    public List<LocationDto> getFavoriteLocationById(String user_code) {
+        UserDto userDto = userService.getUser(user_code);
+
+        return favoriteLocationMapper.getFavoriteLocationById(userDto.getId());
     }
 
     @Override
-    public boolean insertFavoriteLocation(Integer user_id, Integer location_id) {
+    public void insertFavoriteLocation(String user_code, Integer location_id) {
+        UserDto userDto = userService.getUser(user_code);
         FavoriteLocationDto favoriteLocationDto = FavoriteLocationDto.builder()
-                .user_id(user_id)
+                .user_id(userDto.getId())
                 .location_id(location_id)
                 .build();
 
         try {
             favoriteLocationMapper.insertFavoriteLocation(favoriteLocationDto);
-            return true;
         }catch (Exception e) {
-            System.out.println("error: e");
-            return false;
+            log.error("error: {}", e.getMessage());
         }
     }
 
     @Override
-    public boolean deleteFavoriteLocation(Integer user_id, Integer location_id) {
+    public void deleteFavoriteLocation(String user_code, Integer location_id) {
+        UserDto userDto = userService.getUser(user_code);
+        FavoriteLocationDto favoriteLocationDto = checkLocationByUserAndLocationId(userDto.getId(), location_id);
+
         try {
-            favoriteLocationMapper.deleteFavoriteLocation(user_id, location_id);
-            return true;
+            favoriteLocationMapper.deleteFavoriteLocation(favoriteLocationDto);
         }catch (Exception e) {
-            System.out.println("error: " + e);
-            return false;
+            log.error("error: {}", e.getMessage());
         }
+    }
+
+    public FavoriteLocationDto checkLocationByUserAndLocationId(Integer user_id, Integer location_id) {
+        FavoriteLocationDto favoriteLocationDto = favoriteLocationMapper.getFavoriteLocationByUserAndCarId(user_id, location_id);
+
+        if (favoriteLocationDto == null) {
+            throw new IllegalArgumentException(location_id + "번은 해당 유저가 등록한 주차장이 아닙니다.");
+        }
+
+        return favoriteLocationDto;
     }
 }
