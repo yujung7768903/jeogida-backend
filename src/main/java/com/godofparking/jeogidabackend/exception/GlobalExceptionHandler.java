@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
         StringBuilder builder = new StringBuilder();
         List<FieldError> errors = e.getBindingResult().getFieldErrors();
 
-        for (FieldError error : errors ) {
+        for (FieldError error : errors) {
             builder.append(error.getField() + " : " + error.getDefaultMessage() + "\n");
         }
 
@@ -31,4 +31,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(400).body(e.getMessage());
     }
 
+    @ExceptionHandler(DuplicateException.class)
+    public ResponseEntity<String> DuplicateError(DuplicateException e) {
+        return ResponseEntity.status(400).body(e.getMessage());
+    }
 }
