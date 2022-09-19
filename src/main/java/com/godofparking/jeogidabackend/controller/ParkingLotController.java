@@ -3,7 +3,7 @@ package com.godofparking.jeogidabackend.controller;
 import com.godofparking.jeogidabackend.dto.ParkingInfoDto;
 import com.godofparking.jeogidabackend.dto.ParkingLotDto;
 import com.godofparking.jeogidabackend.dto.ParkingLotSaveRequestDto;
-import com.godofparking.jeogidabackend.exception.DuplicateParkingLotException;
+import com.godofparking.jeogidabackend.exception.DuplicateException;
 import com.godofparking.jeogidabackend.service.ParkingLotService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +49,7 @@ public class ParkingLotController {
         try {
             parkingLotService.insertParkingLot(requestDto);
             return ResponseEntity.status(201).body("주차장 등록 완료");
-        } catch (DuplicateParkingLotException e) {
+        } catch (DuplicateException e) {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
