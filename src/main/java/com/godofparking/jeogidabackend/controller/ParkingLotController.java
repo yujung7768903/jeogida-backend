@@ -46,12 +46,9 @@ public class ParkingLotController {
     })
     @PostMapping("")
     public ResponseEntity<String> save(@Valid @RequestBody ParkingLotSaveRequestDto requestDto) {
-        try {
-            parkingLotService.insertParkingLot(requestDto);
-            return ResponseEntity.status(201).body("주차장 등록 완료");
-        } catch (DuplicateException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
+        parkingLotService.insertParkingLot(requestDto);
+
+        return ResponseEntity.status(201).body("주차장 등록 완료");
     }
 
     @ApiOperation(value = "주차장 정보 수정")

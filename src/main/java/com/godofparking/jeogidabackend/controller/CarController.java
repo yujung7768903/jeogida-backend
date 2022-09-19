@@ -28,7 +28,7 @@ public class CarController {
     @ApiImplicitParam(name = "user_code", value = "구글 로그인 후 반환되는 데이터 중 id에 해당하는 값", required = true)
     @ApiResponses({
             @ApiResponse(code = 200, message = "", response = CarDto.class, responseContainer = "List"),
-            @ApiResponse(code = 400, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
+            @ApiResponse(code = 404, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
     })
     @GetMapping("/car/{user_code}")
     public ResponseEntity<Object> getCarById(@PathVariable String user_code) {
@@ -36,7 +36,7 @@ public class CarController {
             List<CarDto> carDtoList = carService.getCarByUserId(user_code);
             return ResponseEntity.status(200).body(carDtoList);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 
@@ -44,7 +44,8 @@ public class CarController {
     @ApiImplicitParam(name = "user_code", value = "구글 로그인 후 반환되는 데이터 중 id에 해당하는 값", required = true)
     @ApiResponses({
             @ApiResponse(code = 201, message = "차량 등록 완료"),
-            @ApiResponse(code = 400, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
+            @ApiResponse(code = 400, message = "동일한 차량이 이미 존재합니다"),
+            @ApiResponse(code = 404, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
     })
     @PostMapping("/car/{user_code}")
     public ResponseEntity<String> save(@PathVariable String user_code, @Valid @RequestBody CarSaveRequestDto requestDto) {
@@ -52,7 +53,7 @@ public class CarController {
             carService.insertCar(user_code, requestDto);
             return ResponseEntity.status(201).body("차량 등록 완료");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 
@@ -63,7 +64,7 @@ public class CarController {
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "차량 수정 완료"),
-            @ApiResponse(code = 400, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
+            @ApiResponse(code = 404, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
     })
     @PatchMapping("/car/{user_code}/{id}")
     public ResponseEntity<String> updateCar(@PathVariable String user_code, @PathVariable Integer id, @Valid @RequestBody CarUpdateRequestDto requestDto) {
@@ -71,7 +72,7 @@ public class CarController {
             carService.updateCar(user_code, id, requestDto);
             return ResponseEntity.status(200).body("차량 정보 수정 완료");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 
@@ -82,7 +83,7 @@ public class CarController {
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "차량 삭제 완료"),
-            @ApiResponse(code = 400, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
+            @ApiResponse(code = 404, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
     })
     @DeleteMapping("/car/{user_code}/{id}")
     public ResponseEntity<String> deleteCar(@PathVariable String user_code, @PathVariable Integer id) {
@@ -90,7 +91,7 @@ public class CarController {
             carService.deleteCar(user_code, id);
             return ResponseEntity.status(200).body("차량 삭제 완료");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 
