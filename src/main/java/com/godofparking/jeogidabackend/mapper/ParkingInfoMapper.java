@@ -16,4 +16,5 @@ public interface ParkingInfoMapper {
     public int deleteParkingInfo(Integer id);
     public ParkingInfoDto getParkingInfoByCar(Integer car_id);
     public ParkingInfoDto checkInfoByNumberAndParkingLotId(ParkingInfoUpdateRequestDto requestDto);
+    public ParkingInfoDto checkDuplicateParkingInfo(Integer number, Integer parking_lot_id);
 }

@@ -4,6 +4,7 @@ import com.godofparking.jeogidabackend.config.auth.time.TimeGap;
 import com.godofparking.jeogidabackend.dto.ParkingInfoDto;
 import com.godofparking.jeogidabackend.dto.ParkingInfoUpdateRequestDto;
 import com.godofparking.jeogidabackend.dto.ParkingLotDto;
+import com.godofparking.jeogidabackend.exception.DuplicateException;
 import com.godofparking.jeogidabackend.mapper.ParkingInfoMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,15 +37,13 @@ public class ParkingInfoImplement implements ParkingInfoService {
 
     // 주차 정보 추가
     @Override
-    public boolean insertParkingInfo(ParkingInfoDto parkingInfoDto) {
+    public void insertParkingInfo(ParkingInfoDto parkingInfoDto) {
         try {
             //시간 설정
             parkingInfoDto.setChanged_at(LocalDateTime.now());
             parkingInfoMapper.insertParkingInfo(parkingInfoDto);
-            return true;
         } catch (Exception e) {
             log.error("error: {}", e.getMessage());
-            return false;
         }
     }
 
@@ -111,6 +110,14 @@ public class ParkingInfoImplement implements ParkingInfoService {
         }
 
         return parkingInfoDto;
+    }
+
+    public void checkDuplicateParkingInfo(Integer number, Integer parking_lot_id) {
+        ParkingInfoDto parkingInfoDto = parkingInfoMapper.checkDuplicateParkingInfo(number, parking_lot_id);
+
+        if (parkingInfoDto != null) {
+            throw new DuplicateException("동일한 주차 정보가 이미 존재합니다");
+        }
     }
 
 }

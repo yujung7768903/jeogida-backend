@@ -13,4 +13,5 @@ public interface CarMapper {
     public int insertCar(CarDto carDto);
     public int updateCar(CarDto carDto);
     public int deleteCar(CarDto carDto);
+    public CarDto checkDuplicateCar(Integer user_id, String car_number);
 }

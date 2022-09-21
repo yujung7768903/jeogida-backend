@@ -5,6 +5,7 @@ import com.godofparking.jeogidabackend.dto.Role;
 import com.godofparking.jeogidabackend.dto.UserDto;
 import com.godofparking.jeogidabackend.dto.UserSaveRequestDto;
 import com.godofparking.jeogidabackend.dto.UserUpdateRequestDto;
+import com.godofparking.jeogidabackend.exception.DuplicateException;
 import com.godofparking.jeogidabackend.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +50,7 @@ public class UserServiceImplement implements UserService{
         UserDto userDto = userMapper.findByCode(requestDto.getCode());
 
         if (userDto != null) {
-            throw new IllegalArgumentException("해당 코드를 가진 유저가 이미 존재합니다.");
+            throw new DuplicateException("해당 코드를 가진 유저가 이미 존재합니다.");
         } else {
             userMapper.insertUser(requestDto.toUser());
         }

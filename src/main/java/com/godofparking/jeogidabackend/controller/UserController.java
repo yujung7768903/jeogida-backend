@@ -28,7 +28,7 @@ public class UserController {
     @ApiImplicitParam(name = "code", value = "구글 로그인 후 반환되는 데이터 중 id에 해당하는 값")
     @ApiResponses({
             @ApiResponse(code = 200, message = "로그인 성공"),
-            @ApiResponse(code = 400, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
+            @ApiResponse(code = 404, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
     })
     @GetMapping("/user/{code}")
     public ResponseEntity<Object> getUser(@PathVariable String code) {
@@ -36,7 +36,7 @@ public class UserController {
             UserDto userDto = userService.getUser(code);
             return ResponseEntity.status(200).body(userDto);
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 
@@ -54,19 +54,16 @@ public class UserController {
     })
     @PostMapping("/user")
     public ResponseEntity<String> save(@Valid @RequestBody UserSaveRequestDto requestDto) {
-        try {
-            userService.insertUser(requestDto);
-            return ResponseEntity.status(201).body("유저 등록 완료");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
+        userService.insertUser(requestDto);
+
+        return ResponseEntity.status(201).body("유저 등록 완료");
     }
 
     @ApiOperation(value = "유저 정보 수정")
     @ApiImplicitParam(name = "code", value = "구글 로그인 후 반환되는 데이터 중 id에 해당하는 값")
     @ApiResponses({
             @ApiResponse(code = 200, message = "로그인 성공"),
-            @ApiResponse(code = 400, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
+            @ApiResponse(code = 404, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
     })
     @PatchMapping("/user/{code}")
     public ResponseEntity<String> updateUser(@PathVariable String code, @Valid @RequestBody UserUpdateRequestDto requestDto) {
@@ -74,7 +71,7 @@ public class UserController {
             userService.updateUser(code, requestDto);
             return ResponseEntity.status(200).body("유저 정보 수정 완료");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 
@@ -86,14 +83,14 @@ public class UserController {
             userService.deleteUser(code);
             return ResponseEntity.status(200).body("탈퇴 완료");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 
     @ApiOperation(value = "로그인", notes = "구글 로그인 페이지로 이동")
     @ApiResponses({
             @ApiResponse(code = 200, message = "로그인 성공"),
-            @ApiResponse(code = 400, message = "nickname : 이름은 빈 값을 가질 수 없습니다.\nemail : 이메일은 빈 값을 가질 수 없습니다.")
+            @ApiResponse(code = 404, message = "nickname : 이름은 빈 값을 가질 수 없습니다.\nemail : 이메일은 빈 값을 가질 수 없습니다.")
     })
     @PostMapping("/user/login")
     public ResponseEntity<String> login(@Valid @RequestBody UserSaveRequestDto requestDto) {

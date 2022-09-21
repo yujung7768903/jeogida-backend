@@ -13,7 +13,7 @@ public interface ParkingInfoService {
 
     public ParkingInfoDto getParkingInfo(Integer id);
 
-    public boolean insertParkingInfo(ParkingInfoDto parkingInfoDto);
+    public void insertParkingInfo(ParkingInfoDto parkingInfoDto);
 
     public void updateParkingInfo(ParkingInfoUpdateRequestDto requestDto);
 

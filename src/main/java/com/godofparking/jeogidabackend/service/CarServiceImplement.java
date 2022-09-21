@@ -4,6 +4,7 @@ import com.godofparking.jeogidabackend.dto.CarDto;
 import com.godofparking.jeogidabackend.dto.CarSaveRequestDto;
 import com.godofparking.jeogidabackend.dto.CarUpdateRequestDto;
 import com.godofparking.jeogidabackend.dto.UserDto;
+import com.godofparking.jeogidabackend.exception.DuplicateException;
 import com.godofparking.jeogidabackend.mapper.CarMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class CarServiceImplement implements CarService{
     @Override
     public void insertCar(String user_code, CarSaveRequestDto requestDto) {
         UserDto userDto = userService.getUser(user_code);
+        checkDuplicateCar(userDto.getId(), requestDto.getNumber());
         CarDto carDto = requestDto.toCar(userDto.getId());
 
         try {
@@ -74,4 +76,13 @@ public class CarServiceImplement implements CarService{
 
         return carDto;
     }
+
+    public void checkDuplicateCar(Integer user_id, String car_number) {
+        CarDto carDto = carMapper.checkDuplicateCar(user_id, car_number);
+
+        if (carDto != null) {
+            throw new DuplicateException("즐겨찾기에 해당 차량이 이미 존재합니다");
+        }
+    }
+
 }

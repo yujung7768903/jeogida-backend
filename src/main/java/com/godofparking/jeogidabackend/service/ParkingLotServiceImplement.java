@@ -3,7 +3,7 @@ package com.godofparking.jeogidabackend.service;
 import com.godofparking.jeogidabackend.dto.ParkingInfoDto;
 import com.godofparking.jeogidabackend.dto.ParkingLotDto;
 import com.godofparking.jeogidabackend.dto.ParkingLotSaveRequestDto;
-import com.godofparking.jeogidabackend.exception.DuplicateParkingLotException;
+import com.godofparking.jeogidabackend.exception.DuplicateException;
 import com.godofparking.jeogidabackend.mapper.ParkingLotMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -102,7 +102,7 @@ public class ParkingLotServiceImplement implements ParkingLotService{
         ParkingLotDto parkingLotDto = parkingLotMapper.checkDuplicateParkingLot(requestDto.toParkingLot());
 
         if (parkingLotDto != null) {
-            throw new DuplicateParkingLotException("동일한 주차장이 이미 존재합니다");
+            throw new DuplicateException("동일한 주차장이 이미 존재합니다");
         }
     }
 
