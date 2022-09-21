@@ -44,7 +44,7 @@ public class CarController {
     @ApiImplicitParam(name = "user_code", value = "구글 로그인 후 반환되는 데이터 중 id에 해당하는 값", required = true)
     @ApiResponses({
             @ApiResponse(code = 201, message = "차량 등록 완료"),
-            @ApiResponse(code = 400, message = "동일한 차량이 이미 존재합니다"),
+            @ApiResponse(code = 400, message = "즐겨찾기에 해당 차량이 이미 존재합니다"),
             @ApiResponse(code = 404, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
     })
     @PostMapping("/car/{user_code}")

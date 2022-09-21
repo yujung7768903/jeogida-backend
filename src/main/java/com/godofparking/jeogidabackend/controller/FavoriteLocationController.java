@@ -28,14 +28,15 @@ public class FavoriteLocationController {
         return favoriteLocationService.getFavoriteLocationById(user_code);
     }
 
-    @ApiOperation(value = "즐겨찾는 장소 추가")
+    @ApiOperation(value = "즐겨찾는 장소 등록")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "location_id", value = "장소 아이디(고유 식별 번호)", required = true),
             @ApiImplicitParam(name = "user_code", value = "구글 로그인 후 반환되는 데이터 중 id에 해당하는 값", required = true)
     })
     @ApiResponses({
             @ApiResponse(code = 201, message = "주차장 등록 완료"),
-            @ApiResponse(code = 400, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
+            @ApiResponse(code = 400, message = "즐겨찾기에 해당 주차장이 이미 존재합니다"),
+            @ApiResponse(code = 404, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
     })
     @PostMapping("/favorite-location/{user_code}/{location_id}")
     public ResponseEntity<String> insertFavoriteLocation(@PathVariable String user_code, @PathVariable Integer location_id) {
@@ -43,7 +44,7 @@ public class FavoriteLocationController {
             favoriteLocationService.insertFavoriteLocation(user_code, location_id);
             return ResponseEntity.status(201).body("주차장 등록 완료");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 
@@ -54,7 +55,7 @@ public class FavoriteLocationController {
     })
     @ApiResponses({
             @ApiResponse(code = 200, message = "주차장 삭제 완료"),
-            @ApiResponse(code = 400, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
+            @ApiResponse(code = 404, message = "해당 코드를 가진 유저는 존재하지 않습니다.")
     })
     @DeleteMapping("/favorite-location/{user_code}/{location_id}")
     public ResponseEntity<String> deleteFavoriteLocation(@PathVariable String user_code, @PathVariable Integer location_id) {
@@ -62,7 +63,7 @@ public class FavoriteLocationController {
             favoriteLocationService.deleteFavoriteLocation(user_code, location_id);
             return ResponseEntity.status(200).body("주차장 삭제 완료");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 }

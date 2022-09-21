@@ -37,4 +37,8 @@
         WHERE id = #{id} AND user_id = #{user_id}
     </delete>
 
+    <select id="checkDuplicateCar" resultType="com.godofparking.jeogidabackend.dto.CarDto">
+        SELECT * From car WHERE user_id = #{user_id} AND number = #{car_number}
+    </select>
+
 </mapper>

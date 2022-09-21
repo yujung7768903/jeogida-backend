@@ -3,6 +3,7 @@ package com.godofparking.jeogidabackend.service;
 import com.godofparking.jeogidabackend.dto.FavoriteLocationDto;
 import com.godofparking.jeogidabackend.dto.LocationDto;
 import com.godofparking.jeogidabackend.dto.UserDto;
+import com.godofparking.jeogidabackend.exception.DuplicateException;
 import com.godofparking.jeogidabackend.mapper.FavoriteLocationMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,7 @@ public class FavoriteLocationImplement implements FavoriteLocationService{
     @Override
     public void insertFavoriteLocation(String user_code, Integer location_id) {
         UserDto userDto = userService.getUser(user_code);
+        checkDuplicateLocation(userDto.getId(), location_id);
         FavoriteLocationDto favoriteLocationDto = FavoriteLocationDto.builder()
                 .user_id(userDto.getId())
                 .location_id(location_id)
@@ -65,4 +67,13 @@ public class FavoriteLocationImplement implements FavoriteLocationService{
 
         return favoriteLocationDto;
     }
+
+    public void checkDuplicateLocation(Integer user_id, Integer location_id) {
+        FavoriteLocationDto favoriteLocationDto = favoriteLocationMapper.getFavoriteLocationByUserAndCarId(user_id, location_id);
+
+        if (favoriteLocationDto != null) {
+            throw new DuplicateException("즐겨찾기에 해당 주차장이 이미 존재합니다");
+        }
+    }
+
 }

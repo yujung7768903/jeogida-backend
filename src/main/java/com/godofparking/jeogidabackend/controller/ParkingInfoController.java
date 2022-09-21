@@ -37,15 +37,21 @@ public class ParkingInfoController {
     }
 
     @ApiOperation(value = "주차 정보 등록")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "주차 정보 등록 완료"),
+            @ApiResponse(code = 400, message = "동일한 주차 정보가 이미 존재합니다")
+    })
     @PostMapping("")
-    public boolean save(@RequestBody ParkingInfoDto parkingInfoDto) {
-        return parkingInfoService.insertParkingInfo(parkingInfoDto);
+    public ResponseEntity<String> save(@RequestBody ParkingInfoDto parkingInfoDto) {
+        parkingInfoService.insertParkingInfo(parkingInfoDto);
+
+        return ResponseEntity.status(200).body("주차 정보 등록 완료");
     }
 
     @ApiOperation(value = "주차 정보 수정")
     @ApiResponses({
             @ApiResponse(code = 200, message = "주차 정보 수정 완료"),
-            @ApiResponse(code = 400, message = "해당 number와 parking_lot_id를 가진 주차 공간은 존재하지 않습니다.")
+            @ApiResponse(code = 404, message = "해당 number와 parking_lot_id를 가진 주차 공간은 존재하지 않습니다.")
     })
     @PatchMapping("")
     public ResponseEntity<String> updateParkingInfo(@Valid @RequestBody ParkingInfoUpdateRequestDto requestDto) {
@@ -53,7 +59,7 @@ public class ParkingInfoController {
             parkingInfoService.updateParkingInfo(requestDto);
             return ResponseEntity.status(200).body("주차 정보 수정 완료");
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(400).body(e.getMessage());
+            return ResponseEntity.status(404).body(e.getMessage());
         }
     }
 

@@ -13,4 +13,6 @@ public interface FavoriteLocationMapper {
     public FavoriteLocationDto getFavoriteLocationByUserAndCarId(Integer user_id, Integer location_id);
     public int insertFavoriteLocation(FavoriteLocationDto favoriteLocationDto);
     public int deleteFavoriteLocation(FavoriteLocationDto favoriteLocationDto);
+
+    public FavoriteLocationDto checkDuplicateLocation();
 }
