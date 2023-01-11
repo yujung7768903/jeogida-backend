@@ -1,4 +1,6 @@
-_원본 저장소는 Gitlab에 private으로 저장되어 있습니다._
+> 원본 저장소는 Gitlab에 private으로 저장되어 있습니다.        
+> Commit 기록은 볼 수 있지만, Gitlab의 Merge Request 기록은 볼 수 없습니다.     
+> 프로젝트 관리에 대한 자세한 내용은 아래 이슈 & 병합 관리 토글을 클릭하여 확인해주세요.
 
 <details><summary><b>이슈 & 병합 관리 (토글 클릭하여 자세히보기)</b></summary>
 
